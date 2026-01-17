@@ -10,7 +10,7 @@ object AppConfig {
     const val APPLICATION_ID = "serg.chuprin.finances"
 
     const val MIN_SDK = 21
-    const val TARGET_SDK = 29
+    const val TARGET_SDK = 35
 
     object BuildTypes {
 

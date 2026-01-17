@@ -1,25 +1,28 @@
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.internal.dsl.BuildType
+
 import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension
-import de.mannodermaus.gradle.plugins.junit5.junitPlatform
+
 import guru.nidi.graphviz.attribute.Color
 import guru.nidi.graphviz.attribute.Style
 import guru.nidi.graphviz.model.MutableNode
+
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 import serg.chuprin.finances.config.AppConfig
 import serg.chuprin.finances.config.setIsDebugMenuEnabled
 
+// Plugins Block
 plugins {
-    id("com.github.ben-manes.versions") version ("0.36.0")
-    id("com.vanniktech.dependency.graph.generator") version ("0.5.0")
+    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.vanniktech.dependency.graph.generator") version "0.5.0"
 }
 
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -37,99 +40,102 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
-        maven("http://jitpack.io/")
+        maven("https://jitpack.io/") // URL muss sicher sein oder allowInsecureProtocol nutzen, hier https bevorzugt
     }
 }
 
 subprojects {
     addKotlinCompilerFlags()
     forceDependencyVersions()
+
     afterEvaluate {
-        extensions
-            .findByType(TestedExtension::class.java)
-            ?.apply {
-                enableExperimentalKotlinExtensions()
-                defaultConfig {
-                    versionCode = AppConfig.VERSION_CODE
-                    versionName = AppConfig.VERSION_NAME
-                    minSdkVersion(AppConfig.MIN_SDK)
-                    targetSdkVersion(AppConfig.TARGET_SDK)
-                }
-                configureBuildTypes()
-
-                compileSdkVersion(AppConfig.TARGET_SDK)
-                buildToolsVersion("29.0.3")
-
-                sourceSets.forEach { sourceSet ->
-                    sourceSet.java.srcDir("src/${sourceSet.name}/kotlin")
-                }
-
-                with(compileOptions) {
-                    sourceCompatibility = JavaVersion.VERSION_1_8
-                    targetCompatibility = JavaVersion.VERSION_1_8
-                }
-                packagingOptions {
-                    exclude("META-INF/DEPENDENCIES")
-                    exclude("META-INF/AL2.0")
-                    exclude("META-INF/LGPL2.1")
-                }
-                configureSpek(this)
-                enableDesugaring(this)
-
-                if (group.toString().contains("feature", ignoreCase = true)) {
-                    dependencies.add("implementation", Libraries.EDGE_TO_EDGE)
-                }
+        // Sicherer Zugriff auf die Android Extension (App oder Library)
+        extensions.findByType<TestedExtension>()?.apply {
+            enableExperimentalKotlinExtensions(project)
+            
+            defaultConfig {
+                // Annahme: VersionCode/Name sind Int/String in AppConfig
+                versionCode = AppConfig.VERSION_CODE
+                versionName = AppConfig.VERSION_NAME
+                minSdk = AppConfig.MIN_SDK
+                targetSdk = AppConfig.TARGET_SDK
             }
+            
+            configureBuildTypes()
+
+            compileSdkVersion(AppConfig.TARGET_SDK)
+            buildToolsVersion("31.1.1")
+
+            sourceSets.forEach { sourceSet ->
+                sourceSet.java.srcDir("src/${sourceSet.name}/kotlin")
+            }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
+            }
+            
+            packagingOptions {
+                resources.excludes.add("META-INF/DEPENDENCIES")
+                resources.excludes.add("META-INF/AL2.0")
+                resources.excludes.add("META-INF/LGPL2.1")
+            }
+            
+            configureSpek(project, this)
+            enableDesugaring(project, this)
+
+            // "group" ist in Gradle Projekten ein Object, toString() ist nötig
+            if (project.group.toString().contains("feature", ignoreCase = true)) {
+                dependencies.add("implementation", Libraries.EDGE_TO_EDGE)
+            }
+        }
     }
 }
 
-// Task name is generateDependencyGraphModules.
-dependencyGraphGenerator {
-    generators = listOf(DependencyGraphGeneratorExtension.Generator(
-        name = "Modules",
-        children = { false },
-        include = { dependency ->
-            dependency.moduleGroup.startsWith(
-                "finances",
-                ignoreCase = true
-            )
-        },
-        dependencyNode = { node: MutableNode, _: ResolvedDependency ->
-            node.add(Style.FILLED, Color.rgb("#FFCB2B"))
-        }
-
-    ))
+// Konfiguration des Dependency Graphs
+configure<DependencyGraphGeneratorExtension> {
+    generators = listOf(
+        DependencyGraphGeneratorExtension.Generator(
+            name = "Modules",
+            children = { false },
+            include = { dependency ->
+                dependency.moduleGroup.startsWith("finances", ignoreCase = true)
+            },
+            dependencyNode = { node: MutableNode, _ ->
+                node.add(Style.FILLED, Color.rgb("#FFCB2B"))
+            }
+        )
+    )
 }
 
-fun Project.enableDesugaring(testedExtension: TestedExtension) {
+fun enableDesugaring(project: Project, testedExtension: TestedExtension) {
     testedExtension.compileOptions.isCoreLibraryDesugaringEnabled = true
-    dependencies.add(
+    project.dependencies.add(
         "coreLibraryDesugaring",
-        "com.android.tools:desugar_jdk_libs:1.1.1"
+        "com.android.tools:desugar_jdk_libs:2.0.5"
     )
 }
 
 /**
- * Configure test options required for running Spek on android and add tests dependencies.
+ * Konfiguriert Test-Optionen für Spek auf Android und fügt Abhängigkeiten hinzu.
  */
-fun Project.configureSpek(testedExtension: TestedExtension) {
-    plugins.apply("de.mannodermaus.android-junit5")
+fun configureSpek(project: Project, testedExtension: TestedExtension) {
+    project.plugins.apply("de.mannodermaus.android-junit5")
+    
     with(testedExtension) {
         testOptions {
-            junitPlatform.filters.includeEngines("spek2")
-            unitTests {
-                all { test ->
-                    test.apply {
-                        systemProperty("kotlinx.coroutines.debug", "on")
-                        testLogging.setEvents(setOf("passed", "skipped", "failed"))
-                    }
+            unitTests.all { test ->
+                test.useJUnitPlatform {
+                    includeEngines("spek2")
                 }
+                test.systemProperty("kotlinx.coroutines.debug", "on")
+                test.testLogging.events("passed", "skipped", "failed")
             }
         }
     }
-    dependencies {
+
+    project.dependencies {
         add("testImplementation", Libraries.Tests.JUPITER_API)
         add("testRuntimeOnly", Libraries.Tests.JUPITER_ENGINE)
 
@@ -147,15 +153,15 @@ fun Project.configureSpek(testedExtension: TestedExtension) {
     }
 }
 
-// Set build types for android module.
+// Setzt Build Types für Android Module
 fun TestedExtension.configureBuildTypes() {
 
-    fun BuildType.configProguard(isLibrary: Boolean): BuildType {
-        return if (isLibrary) {
-            consumerProguardFile(file("proguard-rules.pro"))
+    fun BuildType.configProguard(isLibrary: Boolean) {
+        if (isLibrary) {
+            consumerProguardFile("proguard-rules.pro")
         } else {
             proguardFiles(
-                file("proguard-rules.pro"),
+                "proguard-rules.pro",
                 getDefaultProguardFile("proguard-android-optimize.txt")
             )
         }
@@ -186,19 +192,20 @@ fun TestedExtension.configureBuildTypes() {
 fun Project.addKotlinCompilerFlags() {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = "1.8"
-            kotlinOptions.freeCompilerArgs += listOf(
+            jvmTarget = "17"
+            freeCompilerArgs = freeCompilerArgs + listOf(
                 "-XXLanguage:+InlineClasses",
                 "-Xallow-result-return-type",
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
+                "-opt-in=kotlin.RequiresOptIn", // Aktualisierte Syntax für opt-in
+                "-opt-in=kotlin.ExperimentalStdlibApi"
             )
         }
     }
 }
 
-fun Project.enableExperimentalKotlinExtensions() {
-    extensions.findByType(AndroidExtensionsExtension::class)?.isExperimental = true
+fun enableExperimentalKotlinExtensions(project: Project) {
+    // Hinweis: AndroidExtensions sind deprecated und wurden in neueren Kotlin Versionen entfernt.
+    project.extensions.findByType<AndroidExtensionsExtension>()?.isExperimental = true
 }
 
 fun Project.forceDependencyVersions() {
@@ -209,6 +216,6 @@ fun Project.forceDependencyVersions() {
     }
 }
 
-tasks.register("clean", Delete::class) {
+tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }

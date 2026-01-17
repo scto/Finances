@@ -8,13 +8,13 @@ import Libraries.Coroutines.VER
 object BuildScript {
 
     object Versions {
-        const val KOTLIN_VER = "1.4.10"
+        const val KOTLIN_VER = "2.0.21"
         const val NAVIGATION_VER = "2.3.2"
     }
 
     object Plugins {
         const val GMS = "com.google.gms:google-services:4.3.4"
-        const val ANDROID = "com.android.tools.build:gradle:4.1.1"
+        const val ANDROID = "com.android.tools.build:gradle:8.11.1"
         const val JUNIT5 = "de.mannodermaus.gradle.plugins:android-junit5:1.7.0.0"
         const val KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VER"
         const val NAVIGATION =
