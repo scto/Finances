@@ -42,10 +42,13 @@ jobs:
           fi
 
       - name: 🧹 Clean Project
-        run: ./gradlew clean
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean
 
       - name: 🔨 Unit tests
-        run: ./gradlew testDevUnitTest --stacktrace
+        run: |
+          chmod +x ./gradlew./gradlew testDevUnitTest --stacktrace
 
   build_apk:
     name: Build & Upload APK
@@ -76,7 +79,9 @@ jobs:
           fi
 
       - name: 🧹 Clean Project
-        run: ./gradlew clean
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean
 
       # Duplikat entfernt: Du hattest zweimal assembleDebug drin. Einmal reicht.
       - name: 🔨 Build Debug APK
