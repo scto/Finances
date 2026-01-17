@@ -24,7 +24,7 @@ jobs:
       # Ausführen von Detekt über Gradle
       # Voraussetzung: Das Detekt Plugin ist in der build.gradle.kts eingebunden
       - name: Run Detekt
-        run: ./gradlew detekt
+        run: sh ./gradlew detekt
 
       # Optional: Report hochladen, falls der Build fehlschlägt
       # Stelle sicher, dass Detekt so konfiguriert ist, dass es XML oder SARIF Reports erstellt
