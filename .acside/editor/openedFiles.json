@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/google-services.json",
+      "selection": {
+        "end": {
+          "column": 53,
+          "index": 2457,
+          "line": 76
+        },
+        "start": {
+          "column": 26,
+          "index": 2430,
+          "line": 76
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/proguard-rules.pro",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/proguard-rules.pro"
+}
