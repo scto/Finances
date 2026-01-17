@@ -18,6 +18,7 @@ import serg.chuprin.finances.config.setIsDebugMenuEnabled
 plugins {
     id("com.github.ben-manes.versions") version "0.36.0"
     id("com.vanniktech.dependency.graph.generator") version "0.5.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.5" // Nutze eine aktuelle Version!
 }
 
 buildscript {
@@ -214,6 +215,12 @@ fun Project.forceDependencyVersions() {
             force(Libraries.KOTLIN)
         }
     }
+}
+
+detekt {
+    toolVersion = "1.23.5"
+    config = files("config/detekt/detekt.yml") // Optional: Pfad zu deiner Config
+    buildUponDefaultConfig = true
 }
 
 tasks.register<Delete>("clean") {
