@@ -3,6 +3,10 @@ plugins {
     id("kotlin-android")
 }
 
+android {
+    namespace = "serg.chuprin.finances.core.piechart"
+}
+
 dependencies {
     implementation(Libraries.KOTLIN)
 

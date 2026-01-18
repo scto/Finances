@@ -15,7 +15,7 @@ object BuildScript {
     object Plugins {
         const val GMS = "com.google.gms:google-services:4.3.4"
         const val ANDROID = "com.android.tools.build:gradle:8.11.1"
-        const val JUNIT5 = "de.mannodermaus.gradle.plugins:android-junit5:1.7.0.0"
+        const val JUNIT5 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
         const val KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VER"
         const val NAVIGATION =
             "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VER"
@@ -141,12 +141,10 @@ object Libraries {
 
         const val DEBUG = "com.github.pandulapeter.beagle:ui-drawer:$VER"
         const val RELEASE = "com.github.pandulapeter.beagle:noop:$VER"
-
     }
 
     object Tests {
-
-        private const val JUNIT_VER = "5.7.0"
+        private const val JUNIT_VER = "5.14.1"
         private const val SPEK_VER = "2.0.15"
 
         const val MOCKK = "io.mockk:mockk:1.9.3"
@@ -161,9 +159,9 @@ object Libraries {
         const val SPEK_RUNNER = "org.spekframework.spek2:spek-runner-junit5:$SPEK_VER"
         const val COROUTINES_DEBUG = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:${VER}"
 
+        const val JUPITER_BOM = "org.junit:junit-bom:$JUNIT_VER"
         const val JUPITER_API = "org.junit.jupiter:junit-jupiter-api:$JUNIT_VER"
+        const val JUPITER_PARAMS = "org.junit.jupiter:junit-jupiter-params:JUNIT_VER"
         const val JUPITER_ENGINE = "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VER"
-
     }
-
 }

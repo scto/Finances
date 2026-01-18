@@ -3,6 +3,10 @@ plugins {
     id("kotlin-android")
 }
 
+android {
+    namespace = "serg.chuprin.finances.core.test.presentation.mvi.utils"
+}
+
 dependencies {
     implementation(Libraries.KOTLIN)
     implementation(Libraries.Coroutines.CORE)

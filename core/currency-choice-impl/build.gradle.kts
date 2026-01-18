@@ -2,7 +2,12 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
+}
+
+android {
+    namespace = "serg.chuprin.finances.core.currency.choice.impl"
 }
 
 dependencies {

@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/google-services.json",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/gradle/libs.versions.toml",
       "selection": {
         "end": {
-          "column": 53,
-          "index": 2457,
-          "line": 76
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 26,
-          "index": 2430,
-          "line": 76
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/google-services.json"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Finances/gradle/libs.versions.toml"
 }

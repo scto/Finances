@@ -4,6 +4,10 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+android {
+    namespace = "serg.chuprin.finances"
+}
+
 dependencies {
     implementation(Libraries.KOTLIN)
     implementation(project(":core:api"))

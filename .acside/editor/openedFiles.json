@@ -1,35 +1,185 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/google-services.json",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/currency-choice-api/build.gradle.kts",
       "selection": {
         "end": {
-          "column": 53,
-          "index": 2457,
-          "line": 76
+          "column": 0,
+          "index": 244,
+          "line": 10
         },
         "start": {
-          "column": 26,
-          "index": 2430,
-          "line": 76
+          "column": 0,
+          "index": 167,
+          "line": 7
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/proguard-rules.pro",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/currency-choice-api/src/main/AndroidManifest.xml",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 68,
+          "index": 107,
+          "line": 1
+        },
+        "start": {
+          "column": 68,
+          "index": 107,
+          "line": 1
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/currency-choice-impl/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 26,
+          "index": 185,
+          "line": 5
         },
         "start": {
           "column": 0,
-          "index": 0,
+          "index": 87,
+          "line": 4
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/currency-choice-impl/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 68,
+          "index": 107,
+          "line": 1
+        },
+        "start": {
+          "column": 68,
+          "index": 107,
+          "line": 1
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 160,
+          "line": 8
+        },
+        "start": {
+          "column": 0,
+          "index": 109,
+          "line": 6
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/firebase/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 10,
+          "index": 118,
+          "line": 1
+        },
+        "start": {
+          "column": 10,
+          "index": 118,
+          "line": 1
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/mvi/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 152,
+          "line": 7
+        },
+        "start": {
+          "column": 0,
+          "index": 68,
+          "line": 5
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/mvi/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 10,
+          "index": 10,
           "line": 0
+        },
+        "start": {
+          "column": 10,
+          "index": 10,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 133,
+          "line": 7
+        },
+        "start": {
+          "column": 0,
+          "index": 68,
+          "line": 5
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 10,
+          "index": 10,
+          "line": 0
+        },
+        "start": {
+          "column": 10,
+          "index": 10,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/feature/authorization/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 10,
+          "index": 10,
+          "line": 0
+        },
+        "start": {
+          "column": 10,
+          "index": 10,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Finances/feature/authorization/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 47,
+          "index": 1177,
+          "line": 43
+        },
+        "start": {
+          "column": 47,
+          "index": 1177,
+          "line": 43
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Finances/core/pie-chart/proguard-rules.pro"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Finances/feature/authorization/build.gradle.kts"
 }

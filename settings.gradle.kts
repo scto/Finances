@@ -33,9 +33,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Finances"
 
-// region Core
+
 include(
+// region App
     ":app",
+// region Core
     ":core:api",
     ":core:mvi",
     ":core:impl",
@@ -45,6 +47,7 @@ include(
     ":core:category-shares",
     ":core:currency-choice-api",
     ":core:currency-choice-impl",
+// region Feature
     ":feature:authorization",
     ":feature:categories-list",
     ":feature:dashboard",

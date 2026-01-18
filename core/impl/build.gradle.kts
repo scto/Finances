@@ -4,19 +4,24 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
     kotlin("plugin.serialization") version BuildScript.Versions.KOTLIN_VER
 }
 
 android {
+    namespace = "serg.chuprin.finances.core.impl"
+    
     defaultConfig {
         buildConfigField("int", "VERSION_CODE", "${AppConfig.VERSION_CODE}")
         buildConfigField("String", "VERSION_NAME", "\"${AppConfig.VERSION_NAME}\"")
     }
+    
     buildTypes {
         maybeCreate(AppConfig.BuildTypes.DEV.name)
         maybeCreate(AppConfig.BuildTypes.DEBUG.name)
     }
+    
     // Common debug menu implementation for 'dev' and 'debug' build types.
     sourceSets {
         getByName(AppConfig.BuildTypes.DEV.name).java.srcDir("src/common/kotlin")
@@ -25,7 +30,6 @@ android {
 }
 
 dependencies {
-
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf(".*jar"))))
     api(project(":core:api"))
     api(project(":core:firebase"))
@@ -36,7 +40,6 @@ dependencies {
     implementation(Libraries.Coroutines.ANDROID)
 
     // region UI.
-
     implementation(Libraries.COIL)
 
     // Navigation.
@@ -48,14 +51,11 @@ dependencies {
     implementation(Libraries.Android.FRAGMENT)
     implementation(Libraries.Android.APPCOMPAT)
     implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-
     // endregion
 
     // region DI.
-
     kapt(Libraries.Dagger.COMPILER)
     implementation(Libraries.Dagger.LIBRARY)
-
     // endregion
 
     // Architecture components.
@@ -68,5 +68,4 @@ dependencies {
     releaseImplementation(Libraries.DebugMenu.RELEASE)
 
     testImplementation(project(":core:test"))
-
 }

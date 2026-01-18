@@ -2,7 +2,12 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
+}
+
+android {
+    namespace = "serg.chuprin.finances.feature.authorization"
 }
 
 dependencies {
@@ -17,7 +22,6 @@ dependencies {
     implementation(Libraries.Coroutines.ANDROID)
 
     // region UI.
-
     implementation(Libraries.COIL)
 
     // Navigation.
@@ -29,17 +33,13 @@ dependencies {
     implementation(Libraries.Android.FRAGMENT)
     implementation(Libraries.Android.APPCOMPAT)
     implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-
     // endregion
 
     // region DI.
-
     kapt(Libraries.Dagger.COMPILER)
     implementation(Libraries.Dagger.LIBRARY)
-
     // endregion
 
     // Architecture components.
     implementation(Libraries.Android.Lifecycle)
-
 }

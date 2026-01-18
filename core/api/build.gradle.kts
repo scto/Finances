@@ -1,11 +1,15 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
+}
+
+android {
+    namespace = "serg.chuprin.finances.core.api"
 }
 
 dependencies {
-
     api(project(":core:mvi"))
     implementation(Libraries.KOTLIN)
     implementation(Libraries.Coroutines.CORE)
@@ -13,10 +17,8 @@ dependencies {
     implementation(Libraries.JAVAX_ANNOTATIONS)
 
     // region UI.
-
     implementation(Libraries.COIL)
     implementation(Libraries.Adapter)
-
     implementation(Libraries.Coroutines.Bindings)
 
     // Navigation.
@@ -29,7 +31,6 @@ dependencies {
     implementation(Libraries.Android.APPCOMPAT)
     implementation(Libraries.Android.TRANSITION)
     implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-
     // endregion
 
     // Architecture components.
@@ -37,5 +38,4 @@ dependencies {
 
     // Timber.
     api(Libraries.TIMBER)
-
 }

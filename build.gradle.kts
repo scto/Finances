@@ -1,6 +1,7 @@
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.internal.dsl.BuildType
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
 import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension
 
@@ -13,18 +14,26 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 import serg.chuprin.finances.config.AppConfig
 import serg.chuprin.finances.config.setIsDebugMenuEnabled
+import serg.chuprin.finances.config.enableBuildConfig // WICHTIG: Import der Extension Function
+import serg.chuprin.finances.config.enableViewBinding // WICHTIG: Import der Extension Function
+
 
 // Plugins Block
 plugins {
     id("com.github.ben-manes.versions") version "0.36.0"
     id("com.vanniktech.dependency.graph.generator") version "0.5.0"
+    //id("com.vanniktech.dependency.graph.generator") version "0.8.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.5" // Nutze eine aktuelle Version!
+    //alias(libs.plugins.plugin.detekt.gradle)
+    //alias(libs.plugins.plugin.android.gradle) apply false
+    //alias(libs.plugins.plugin.kotlin.gradle) apply false
 }
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io/") // URL muss sicher sein oder allowInsecureProtocol nutzen, hier https bevorzugt
         gradlePluginPortal()
     }
     dependencies {
@@ -38,6 +47,7 @@ buildscript {
     }
 }
 
+/*
 allprojects {
     repositories {
         google()
@@ -45,11 +55,31 @@ allprojects {
         maven("https://jitpack.io/") // URL muss sicher sein oder allowInsecureProtocol nutzen, hier https bevorzugt
     }
 }
+*/
 
 subprojects {
     addKotlinCompilerFlags()
     forceDependencyVersions()
 
+    // Automatische Konfiguration für Android Libraries (wie :core:api)
+    pluginManager.withPlugin("com.android.library") {
+        extensions.configure<LibraryExtension> {
+            // FEHLERBEHEBUNG:
+            // Aktiviert BuildConfig global für alle Libraries.
+            // Dies behebt den Fehler ":core:api - Build Type 'debug' contains custom BuildConfig fields..."
+            enableBuildConfig()
+        }
+    }
+
+    // Automatische Konfiguration für Android Apps (falls benötigt)
+    pluginManager.withPlugin("com.android.application") {
+        extensions.configure<BaseAppModuleExtension> {
+            enableBuildConfig()
+            // Optional: ViewBinding standardmäßig aktivieren, falls gewünscht
+            enableViewBinding()
+        }
+    }
+    
     afterEvaluate {
         // Sicherer Zugriff auf die Android Extension (App oder Library)
         extensions.findByType<TestedExtension>()?.apply {
@@ -66,7 +96,7 @@ subprojects {
             configureBuildTypes()
 
             compileSdkVersion(AppConfig.TARGET_SDK)
-            buildToolsVersion("31.1.1")
+            buildToolsVersion("31.0.0") // 35.0.0 / 36.0.0
 
             sourceSets.forEach { sourceSet ->
                 sourceSet.java.srcDir("src/${sourceSet.name}/kotlin")
@@ -114,7 +144,7 @@ fun enableDesugaring(project: Project, testedExtension: TestedExtension) {
     testedExtension.compileOptions.isCoreLibraryDesugaringEnabled = true
     project.dependencies.add(
         "coreLibraryDesugaring",
-        "com.android.tools:desugar_jdk_libs:2.0.5"
+        "com.android.tools:desugar_jdk_libs:2.0.4"
     )
 }
 
@@ -217,6 +247,14 @@ fun Project.forceDependencyVersions() {
     }
 }
 
+// Detekt Konfiguration (Statische Codeanalyse)
+/*
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+*/
 detekt {
     toolVersion = "1.23.5"
     config = files("config/detekt/detekt.yml") // Optional: Pfad zu deiner Config
@@ -224,5 +262,5 @@ detekt {
 }
 
 tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

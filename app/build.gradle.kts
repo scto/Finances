@@ -1,41 +1,59 @@
-import org.apache.commons.io.output.ByteArrayOutputStream
 import serg.chuprin.finances.config.AppConfig
+
+import serg.chuprin.finances.config.enableBuildConfig
+import serg.chuprin.finances.config.enableViewBinding 
+import serg.chuprin.finances.config.enableCompose
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
     id("ru.cleverpumpkin.proguard-dictionaries-generator")
     id("androidx.navigation.safeargs")
 }
 
 android {
+    namespace = AppConfig.APPLICATION_ID
+    
     defaultConfig {
         versionCode = AppConfig.VERSION_CODE
         versionName = AppConfig.VERSION_NAME
         applicationId = AppConfig.APPLICATION_ID
     }
+    /*
     signingConfigs {
-        getByName(AppConfig.BuildTypes.DEBUG.name) {
+        create(AppConfig.BuildTypes.DEBUG.name) {
             keyPassword = "android"
             storePassword = "android"
             keyAlias = "androiddebugkey"
             storeFile = File(projectDir, "debug.keystore")
         }
     }
+    */
     buildTypes {
         maybeCreate(AppConfig.BuildTypes.DEBUG.name).apply {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "+${getLastCommitHash()}"
-            signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.DEBUG.name)
+            //signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.DEBUG.name)
         }
         maybeCreate(AppConfig.BuildTypes.DEV.name).apply {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "+${getLastCommitHash()}"
-            signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.DEBUG.name)
+            //signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.DEBUG.name)
         }
     }
+    //enableBuildConfig()
+    //enableViewBinding()
+    
+    /*
+    buildFeatures {
+        //buildConfig = true
+        viewBinding = true
+    }
+    */
+    
 }
 
 proguardDictionaries {
@@ -48,11 +66,9 @@ proguardDictionaries {
 }
 
 dependencies {
-
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf(".*jar"))))
 
     // region Modules.
-
     implementation(project(":core:impl"))
     implementation(project(":feature:dashboard"))
     implementation(project(":feature:onboarding"))
@@ -68,7 +84,6 @@ dependencies {
     implementation(project(":feature:money-account"))
     implementation(project(":core:currency-choice-api"))
     implementation(project(":core:currency-choice-impl"))
-
     // endregion
 
     implementation(Libraries.KOTLIN)
@@ -76,14 +91,11 @@ dependencies {
     implementation(Libraries.Coroutines.ANDROID)
 
     // region DI.
-
     kapt(Libraries.Dagger.COMPILER)
     implementation(Libraries.Dagger.LIBRARY)
-
     // endregion
 
     // region UI.
-
     implementation(Libraries.COIL)
 
     // Navigation.
@@ -95,7 +107,6 @@ dependencies {
     implementation(Libraries.Android.FRAGMENT)
     implementation(Libraries.Android.APPCOMPAT)
     implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-
     // endregion
 
     // Architecture components.
@@ -104,15 +115,15 @@ dependencies {
     // Firebase.
     implementation(Libraries.Infrastructure.AUTH)
     implementation(Libraries.Infrastructure.FIRESTORE)
-
 }
 
 fun getLastCommitHash(): String {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine("git", "rev-parse", "--short", "HEAD")
-        standardOutput = stdout
+    return try {
+        // Use standard ProcessBuilder to avoid Gradle 'exec' context issues
+        val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
+        process.inputStream.bufferedReader().use { it.readText().trim() }
+    } catch (e: Exception) {
+        // Fallback if git is not available or fails
+        "unknown"
     }
-    @Suppress("DEPRECATION")
-    return stdout.toString().trim()
 }
