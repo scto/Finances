@@ -2,7 +2,11 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions")
+    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("kotlin-parcelize")
+}
+android {
+    namespace = "serg.chuprin.finances.feature.categories.list"
 }
 
 dependencies {

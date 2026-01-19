@@ -3,6 +3,10 @@ plugins {
     id("kotlin-android")
 }
 
+android {
+    namespace = "serg.chuprin.finances.core.test"
+}
+
 dependencies {
 
     implementation(project(":core:api"))
