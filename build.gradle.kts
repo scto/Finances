@@ -33,7 +33,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io/") // URL muss sicher sein oder allowInsecureProtocol nutzen, hier https bevorzugt
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://jcenter.bintray.com/") } // Wichtig für serg.chuprin
         gradlePluginPortal()
     }
     dependencies {
@@ -52,7 +53,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io/") // URL muss sicher sein oder allowInsecureProtocol nutzen, hier https bevorzugt
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://jcenter.bintray.com/") } // Wichtig für serg.chuprin
     }
 }
 */

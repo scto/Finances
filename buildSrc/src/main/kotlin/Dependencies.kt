@@ -31,7 +31,8 @@ object Libraries {
 
     const val COIL = "io.coil-kt:coil:1.1.0"
     const val TIMBER = "com.github.ajalt:timberkt:1.5.1"
-    const val FLEXBOX = "com.google.android:flexbox:2.0.1"
+    const val FLEXBOX = "com.google.android.flexbox:flexbox:3.0.0"
+    //const val FLEXBOX = "com.google.android:flexbox:2.0.1"
     const val EDGE_TO_EDGE = "de.halfbit:edge-to-edge:1.0-rc1"
     const val JAVAX_ANNOTATIONS = "javax.inject:javax.inject:1"
     const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VER"
@@ -87,8 +88,9 @@ object Libraries {
         private const val VER = "1.3.0"
 
         override fun invoke(): Collection<String> = listOf(
-            "serg.chuprin:multiviewadapter:$VER",
-            "serg.chuprin:multiviewadapter-kt-extensions:$VER"
+
+            "serg.chuprin:multiviewadapter:1.3.0",
+            "serg.chuprin:multiviewadapter-kt-extensions:1.3.0"
         )
 
     }
@@ -137,10 +139,10 @@ object Libraries {
     }
 
     object DebugMenu {
-        private const val VER = "2.4.4"
+        private const val VER = "2.9.8"
 
-        const val DEBUG = "com.github.pandulapeter.beagle:ui-drawer:$VER"
-        const val RELEASE = "com.github.pandulapeter.beagle:noop:$VER"
+        const val DEBUG = "io.github.pandulapeter.beagle:ui-drawer:2.9.8"
+        const val RELEASE = "io.github.pandulapeter.beagle:noop:2.9.8"
     }
 
     object Tests {
