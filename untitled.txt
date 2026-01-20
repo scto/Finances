@@ -1,0 +1,85 @@
+
+Ersetze den Inhalt von core/api/build.gradle.kts mit:
+
+plugins {
+id("finances.android.library")
+// Falls Compose gebraucht wird:
+// id("finances.android.compose")
+}
+
+android {
+namespace = "serg.chuprin.finances.core.api"
+}
+
+dependencies {
+// Nur noch modulspezifische Dependencies hier
+implementation(libs.coroutines.core)
+// ...
+}
+
+Du musst nun nach und nach deine `build.gradle.kts` Dateien in den Modulen leeren und die Plugins `finances.android.library` (für Libraries) oder `finances.android.application` (für App) anwenden.
+
+
+
+
+// In AndroidLibraryConventionPlugin.kt
+class AndroidLibraryConventionPlugin : Plugin<Project> {
+override fun apply(target: Project) {
+with(target) {
+with(pluginManager) {
+// ... andere plugins
+apply("finances.detekt") // Detekt automatisch hinzufügen
+}
+// ...
+}
+}
+}
+
+Oder du wendest es explizit in den `build.gradle.kts` Dateien der Module an:
+`id("finances.detekt")`
+
+
+
+
+
+# In config/detekt/detekt.yml hinzufügen/anpassen  <-- Das ist nur ein Kommentar, okay.
+
+naming:
+FunctionNaming:
+ignoreAnnotated: ['Composable'] # Erlaubt Großschreibung für @Composable Funktionen
+ignoreOverridden: true
+
+**Warum das problematisch sein kann:**
+1.  **Doppelte Keys:** Wenn weiter oben in der Datei bereits ein `naming:` Block existiert (was in der Standard-Konfiguration der Fall ist), überschreibt dieser neue Block am Ende entweder den gesamten vorherigen `naming` Block (wodurch Regeln wie `ClassNaming`, `PackageNaming` etc. verloren gehen) oder er wird vom YAML-Parser ignoriert/als Fehler gewertet.
+2.  **Best Practice:** Du solltest den Inhalt von `FunctionNaming` in den bestehenden `naming:` Block weiter oben in der Datei integrieren (mergen), anstatt einen zweiten `naming:` Block am Ende anzuhängen.
+
+**Empfohlene Korrektur für `detekt.yml`:**
+
+Suche in der Datei nach dem Abschnitt `naming:` (meistens ziemlich weit oben oder in der Mitte). Füge die `FunctionNaming` Regel dort ein:
+
+```yaml
+naming:
+# ... existierende Regeln wie ClassNaming ...
+
+# Hier einfügen/ersetzen:
+FunctionNaming:
+active: true
+ignoreAnnotated: ['Composable']
+ignoreOverridden: true
+# ... eventuell andere existierende Einstellungen beibehalten ...
+
+Lösche dann den angehängten Block ganz am Ende der Datei.
+
+**Zusammenfassung der Detekt-Datei:**
+* **Syntax:** OK (YAML ist valide).
+* **Logik:** Die Regeln an sich (`ignoreAnnotated: ['Composable']`) sind korrekt für Jetpack Compose.
+* **Struktur:** Bitte den doppelten `naming` Block am Ende bereinigen und mergen.
+
+### Nächste Schritte
+
+1.  Füge die oben genannten Code-Blöcke hinzu.
+2.  Wende das Spotless Plugin in deinen Modulen an (genau wie Detekt), z.B. in `AndroidLibraryConventionPlugin`:
+```kotlin
+pluginManager.apply("finances.spotless")
+3.  Bereinige die `detekt.yml` wie beschrieben.
+4.  Führe `./gradlew spotlessApply` aus, um die Formatierung im ganzen Projekt anzuwenden.

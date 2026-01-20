@@ -15,50 +15,48 @@
  */
 
 pluginManagement {
+    includeBuild("build-logic") // Bindet die build-logic ein
     repositories {
-        mavenLocal()
         google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://jcenter.bintray.com/") } // Wichtig für serg.chuprin
     }
 }
 
 rootProject.name = "Finances"
 
+include(":app")
+//include(":buildSrc") // Kann später gelöscht werden, wenn die Migration abgeschlossen ist
 
-include(
-// region App
-    ":app",
-// region Core
-    ":core:api",
-    ":core:mvi",
-    ":core:impl",
-    ":core:test",
-    ":core:firebase",
-    ":core:pie-chart",
-    ":core:category-shares",
-    ":core:currency-choice-api",
-    ":core:currency-choice-impl",
-// region Feature
-    ":feature:authorization",
-    ":feature:categories-list",
-    ":feature:dashboard",
-    ":feature:dashboard-setup-api",
-    ":feature:dashboard-setup-impl",
-    ":feature:money-account",
-    ":feature:money-account-details",
-    ":feature:money-accounts-list",
-    ":feature:onboarding",
-    ":feature:transaction",
-    ":feature:transactions-report",
-    ":feature:user-profile"
-)
+// Core Modules
+include(":core:api")
+include(":core:impl")
+include(":core:firebase")
+include(":core:mvi")
+include(":core:test")
+include(":core:pie-chart")
+include(":core:category-shares")
+include(":core:currency-choice-api")
+include(":core:currency-choice-impl")
+
+// Feature Modules
+include(":feature:onboarding")
+include(":feature:authorization")
+include(":feature:dashboard")
+include(":feature:dashboard-setup-api")
+include(":feature:dashboard-setup-impl")
+include(":feature:categories-list")
+include(":feature:money-account")
+include(":feature:money-account-details")
+include(":feature:money-accounts-list")
+include(":feature:transaction")
+include(":feature:transactions-report")
+include(":feature:user-profile")

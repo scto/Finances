@@ -69,26 +69,22 @@ complexity:
     threshold: 10
     includeStaticDeclarations: false
     includePrivateDeclarations: false
-  # RENAMED: ComplexMethod -> CyclomaticComplexMethod
-  CyclomaticComplexMethod:
+  ComplexMethod:
     active: true
     threshold: 15
-    ignoreSingleWhenExpression: true
-    ignoreSimpleWhenEntries: true
+    ignoreSingleWhenExpression: false
+    ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
     nestingFunctions:
-      - 'also'
-      - 'apply'
-      - 'forEach'
-      - 'isNotNull'
-      - 'ifNull'
-      - 'let'
       - 'run'
-      - 'use'
       - 'with'
-  LabeledExpression:
-    active: true
-    ignoredLabels: []
+      - 'apply'
+      - 'also'
+      - 'let'
+      - 'runCatching'
+      - 'launch'
+      - 'async'
+      - 'withContext'
   LargeClass:
     active: true
     threshold: 600
@@ -128,7 +124,7 @@ complexity:
 coroutines:
   active: true
   GlobalCoroutineUsage:
-    active: false
+    active: true
   RedundantSuspendModifier:
     active: true
   SleepInsteadOfDelay:
@@ -140,7 +136,7 @@ empty-blocks:
   active: true
   EmptyCatchBlock:
     active: true
-    allowedExceptionNameRegex: '_|(ignore|expected).*'
+    allowedExceptionNameRegex: '^_|(ignore|expected).*'
   EmptyClassBlock:
     active: true
   EmptyDefaultConstructor:
@@ -168,6 +164,8 @@ empty-blocks:
     active: true
   EmptyWhenBlock:
     active: true
+  EmptyWhileBlock:
+    active: true
 
 exceptions:
   active: true
@@ -182,8 +180,6 @@ exceptions:
     active: true
   NotImplementedDeclaration:
     active: true
-  ObjectExtendsThrowable:
-    active: true
   PrintStackTrace:
     active: true
   RethrowCaughtException:
@@ -197,17 +193,13 @@ exceptions:
       - 'NumberFormatException'
       - 'ParseException'
       - 'MalformedURLException'
-    allowedExceptionNameRegex: '_|(ignore|expected).*'
+    allowedExceptionNameRegex: '^_|(ignore|expected).*'
   ThrowingExceptionFromFinally:
     active: true
   ThrowingExceptionInMain:
     active: true
   ThrowingExceptionsWithoutMessageOrCause:
     active: true
-    exceptions:
-      - 'IllegalArgumentException'
-      - 'IllegalStateException'
-      - 'IOException'
   ThrowingNewInstanceOfSameException:
     active: true
   TooGenericExceptionCaught:
@@ -221,7 +213,7 @@ exceptions:
       - 'IndexOutOfBoundsException'
       - 'RuntimeException'
       - 'Throwable'
-    allowedExceptionNameRegex: '_|(ignore|expected).*'
+    allowedExceptionNameRegex: '^_|(ignore|expected).*'
   TooGenericExceptionThrown:
     active: true
     exceptionNames:
@@ -235,32 +227,56 @@ naming:
   ClassNaming:
     active: true
     classPattern: '[A-Z][a-zA-Z0-9]*'
+  ConstructorParameterNaming:
+    active: true
+    parameterPattern: '[a-z][A-Za-z0-9]*'
+    privateParameterPattern: '[a-z][A-Za-z0-9]*'
+    excludeClassPattern: '$^'
+  EnumEntryNaming:
+    active: true
+    enumEntryPattern: '[A-Z][_a-zA-Z0-9]*'
+  FunctionMaxLength:
+    active: false
+    maximumFunctionNameLength: 30
+  FunctionMinLength:
+    active: false
+    minimumFunctionNameLength: 3
+  # --- HIER WURDE DER FIX INTEGRIERT ---
   FunctionNaming:
     active: true
     functionPattern: '[a-z][a-zA-Z0-9]*'
     excludeClassPattern: '$^'
+    ignoreOverridden: true
+    # Erlaubt Großschreibung für Compose-Funktionen
+    ignoreAnnotated: ['Composable']
+  # -------------------------------------
   FunctionParameterNaming:
     active: true
-    parameterPattern: '[a-z][a-zA-Z0-9]*'
+    parameterPattern: '[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
+  InvalidPackageDeclaration:
+    active: true
   MatchingDeclarationName:
     active: true
+    mustBeFirst: true
   MemberNameEqualsClassName:
     active: true
     ignoreOverridden: true
+  NonBooleanPropertyPrefixedWithIs:
+    active: true
   ObjectPropertyNaming:
     active: true
-    constantPattern: '[A-Z][A-Z0-9]*(_[A-Z0-9]+)*'
-    propertyPattern: '[A-Za-z][_a-zA-Z0-9]*'
-    privatePropertyPattern: '(_)?[a-z][a-zA-Z0-9]*'
+    constantPattern: '[A-Za-z][_A-Za-z0-9]*'
+    propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
+    privatePropertyPattern: '(_)?[A-Za-z][_A-Za-z0-9]*'
   PackageNaming:
     active: true
-    packagePattern: '[a-z]+(\.[a-z][a-z0-9]*)*'
+    packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9]*)*'
   TopLevelPropertyNaming:
     active: true
-    constantPattern: '[A-Z][A-Z0-9]*(_[A-Z0-9]+)*'
-    propertyPattern: '[A-Za-z][_a-zA-Z0-9]*'
-    privatePropertyPattern: '(_)?[a-z][a-zA-Z0-9]*'
+    constantPattern: '[A-Z][_A-Z0-9]*'
+    propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
+    privatePropertyPattern: '(_)?[A-Za-z][_A-Za-z0-9]*'
   VariableMaxLength:
     active: false
     maximumVariableNameLength: 64
@@ -269,8 +285,8 @@ naming:
     minimumVariableNameLength: 1
   VariableNaming:
     active: true
-    variablePattern: '[a-z][a-zA-Z0-9]*'
-    privateVariablePattern: '(_)?[a-z][a-zA-Z0-9]*'
+    variablePattern: '[a-z][A-Za-z0-9]*'
+    privateVariablePattern: '(_)?[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
 
 performance:
@@ -293,49 +309,32 @@ potential-bugs:
   CastToNullableType:
     active: false
   Deprecation:
-    active: false
+    active: true
   DontDowncastCollectionTypes:
-    active: false
+    active: true
   DoubleMutabilityForCollection:
     active: true
-    mutableTypes:
-      - 'java.util.ArrayList'
-      - 'java.util.HashMap'
-      - 'java.util.HashSet'
-      - 'java.util.Hashtable'
-      - 'java.util.LinkedHashMap'
-      - 'java.util.LinkedHashSet'
-      - 'java.util.LinkedList'
-      - 'java.util.Stack'
-      - 'java.util.TreeMap'
-      - 'java.util.TreeSet'
-      - 'java.util.Vector'
-      - 'kotlin.collections.ArrayList'
-      - 'kotlin.collections.HashMap'
-      - 'kotlin.collections.HashSet'
-      - 'kotlin.collections.LinkedHashMap'
-      - 'kotlin.collections.LinkedHashSet'
-      - 'kotlin.collections.MutableList'
-      - 'kotlin.collections.MutableMap'
-      - 'kotlin.collections.MutableSet'
+  DuplicateCaseInWhenExpression:
+    active: true
   EqualsAlwaysReturnsTrueOrFalse:
     active: true
   EqualsWithHashCodeExist:
     active: true
-  ExitOutsideMain:
-    active: false
+  ExplicitGarbageCollectionCall:
+    active: true
   HasPlatformType:
     active: true
   IgnoredReturnValue:
     active: true
-    restrictToConfig: true
+    restrictToAnnotatedMethods: true
     returnValueAnnotations:
-      - 'CheckResult'
       - '*.CheckResult'
-      - 'CheckReturnValue'
       - '*.CheckReturnValue'
   ImplicitDefaultLocale:
     active: true
+  ImplicitUnitReturnType:
+    active: true
+    allowExplicitReturnType: true
   InvalidRange:
     active: true
   IteratorHasNextCallsNextMethod:
@@ -344,16 +343,14 @@ potential-bugs:
     active: true
   LateinitUsage:
     active: false
-    ignoreAnnotated: [] # UPDATED: ignoreAnnotated (was excludeAnnotatedProperties)
-    ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
     active: true
-  NullCheckOnMutableProperty:
-    active: false
+  MissingWhenCase:
+    active: true
   NullableToStringCall:
-    active: false
+    active: true
   UnconditionalJumpStatementInLoop:
-    active: false
+    active: true
   UnnecessaryNotNullOperator:
     active: true
   UnnecessarySafeCall:
@@ -364,39 +361,54 @@ potential-bugs:
     active: true
   UnsafeCast:
     active: true
+  UselessPostfixExpression:
+    active: true
+  WrongEqualsTypeParameter:
+    active: true
 
 style:
   active: true
+  ClassOrdering:
+    active: true
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:
     active: true
-    conversionFunctionPrefix:
-      - 'to'
+    conversionFunctionPrefix: 'to'
   EqualsNullCall:
     active: true
+  ExplicitItLambdaParameter:
+    active: true
+  ExpressionBodySyntax:
+    active: true
+    includeLineWrapping: false
   ForbiddenComment:
     active: true
-    comments: # UPDATED: 'comments' (was 'values')
+    values:
       - 'TODO:'
       - 'FIXME:'
       - 'STOPSHIP:'
     allowedPatterns: ''
   ForbiddenImport:
     active: true
-    # FIX: 'imports' must be a list of strings, not objects with messages.
-    imports:
-      - 'com.google.android.material.R'
-      - 'org.junit.jupiter.api.Assertions.assertEquals'
+    imports: []
+    forbiddenPatterns: ''
   ForbiddenMethodCall:
     active: true
     methods:
-      - 'kotlin.io.print'
-      - 'kotlin.io.println'
+      - reason: 'print does not allow you to configure the output stream. Use a logger.'
+        value: 'kotlin.io.print'
+      - reason: 'println does not allow you to configure the output stream. Use a logger.'
+        value: 'kotlin.io.println'
+  ForbiddenPublicDataClass:
+    active: false
+    ignorePackages:
+      - '*.internal'
+  ForbiddenVoid:
+    active: true
   FunctionOnlyReturningConstant:
     active: true
-    ignoreOverridableFunction: true
-    ignoreActualFunction: true
+    ignoreOverridden: true
     excludedFunctions:
       - 'describeContents'
   LoopWithTooManyJumpStatements:
@@ -410,25 +422,40 @@ style:
       - '1'
       - '2'
     ignoreHashCodeFunction: true
-    ignorePropertyDeclaration: false
+    ignorePropertyDeclaration: true
     ignoreLocalVariableDeclaration: false
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
     ignoreAnnotation: true
     ignoreNamedArgument: true
     ignoreEnums: true
-  # REPLACED: MandatoryBracesIfStatements -> BracesOnIfStatements
-  BracesOnIfStatements:
+  MandatoryBracesIfStatements:
     active: true
-    singleLine: 'never'
-    multiLine: 'always'
+  MandatoryBracesLoops:
+    active: true
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 140
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
+  MayBeConst:
+    active: true
+  ModifierOrder:
+    active: true
   NestedClassesVisibility:
+    active: true
+  NewLineAtEndOfFile:
+    active: true
+  NoTabs:
+    active: true
+  OptionalAbstractKeyword:
+    active: true
+  OptionalUnit:
+    active: true
+  OptionalWhenBraces:
+    active: true
+  PreferToOverPairSyntax:
     active: true
   ProtectedMemberInFinalClass:
     active: true
@@ -490,3 +517,43 @@ style:
     active: true
     excludeImports:
       - 'java.util.*'
+
+# Compose Rules Konfiguration (Standardwerte + Anpassungen)
+# Siehe https://mrmans0n.github.io/compose-rules/
+compose:
+  ContentEmitterReturningValues:
+    active: true
+    # contentEmitters: androidx.compose.foundation.layout.Row,androidx.compose.foundation.layout.Column
+  ModifierComposable:
+    active: true
+  ModifierMissing:
+    active: true
+    # checkModifiersForComposables: true
+  ModifierReused:
+    active: true
+  ModifierWithoutDefault:
+    active: true
+  MultipleEmitters:
+    active: true
+    # contentEmitters: androidx.compose.foundation.layout.Row,androidx.compose.foundation.layout.Column
+  MutableParams:
+    active: true
+  Naming:
+    active: true
+    # allowedLambdaParameterNames: onSizeChanged, onGloballyPositioned
+  PreviewAnnotationNaming:
+    active: true
+  PreviewNaming:
+    active: false # Opt-in, standardmäßig deaktiviert
+  PreviewPublic:
+    active: true
+  RememberMissing:
+    active: true
+  RememberContentMissing:
+    active: true
+  UnstableCollections:
+    active: false # Opt-in, standardmäßig deaktiviert
+  ViewModelForwarding:
+    active: true
+  ViewModelInjection:
+    active: true

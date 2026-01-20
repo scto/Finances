@@ -45,6 +45,9 @@ mockk = "1.13.9"
 
 # --- Static Analysis ---
 detekt = "1.23.5"
+detektCompose = "0.3.12" # Prüfe auf aktuelle Version: https://github.com/mrmans0n/compose-rules
+
+spotless = "6.25.0"
 
 [libraries]
 # --- Kotlin ---
@@ -100,10 +103,15 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
+# Detekt
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+# ... andere Libraries
+detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
+
 # --- Plugins (Libraries für buildSrc/Dependencies) ---
-plugin-android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-plugin-kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-detekt-gradle = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 
 [bundles]
 androidx-ui = ["androidx-core-ktx", "androidx-appcompat", "material", "androidx-constraintlayout", "androidx-recyclerview", "androidx-fragment-ktx"]
@@ -120,4 +128,5 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
