@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.scto.convention
+package serg.chuprin.convention
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
