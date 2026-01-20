@@ -1,6 +1,5 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("finances.android.library")
 }
 
 android {
@@ -8,12 +7,17 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.KOTLIN)
-    implementation(Libraries.Coroutines.CORE)
-    api(Libraries.Tests.COROUTINES)
-    implementation(Libraries.Tests.COROUTINES_DEBUG)
+    // Coroutines Core
+    implementation(libs.kotlin.coroutines.core)
+    
+    // Coroutines Test via API, damit Module, die :core:test einbinden, 
+    // Zugriff auf runTest, TestDispatcher etc. haben.
+    api(libs.kotlin.coroutines.test)
+    
+    // Coroutines Debug Agent (War Libraries.Tests.COROUTINES_DEBUG)
+    // Da wir die Version zentral haben, nutzen wir die Referenz
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug:${libs.versions.coroutines.get()}")
 
-    // Timber.
-    implementation(Libraries.TIMBER)
-
+    // Logging
+    implementation(libs.timber.kt)
 }

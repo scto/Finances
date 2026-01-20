@@ -1,7 +1,5 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("finances.android.library")
     id("kotlin-parcelize")
 }
 
@@ -11,18 +9,22 @@ android {
 
 dependencies {
     implementation(project(":core:api"))
-    implementation(Libraries.KOTLIN)
 
-    implementation(Libraries.Coroutines.CORE)
-    implementation(Libraries.Coroutines.ANDROID)
+    // --- Architecture & Async ---
+    implementation(libs.bundles.coroutines)
 
-    implementation(Libraries.Adapter)
-
-    // Android.
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.DESIGN)
-    implementation(Libraries.Android.FRAGMENT)
-    implementation(Libraries.Android.APPCOMPAT)
-    implementation(Libraries.Android.TRANSITION)
-    implementation(Libraries.Android.CONSTRAINT_LAYOUT)
+    // --- UI ---
+    implementation(libs.bundles.androidx.ui)
+    implementation(libs.adapterDelegates)
+    
+    // Falls das Modul explizit Navigation oder Lifecycle braucht, füge diese Bundles hinzu:
+    // implementation(libs.bundles.androidx.navigation)
+    // implementation(libs.bundles.androidx.lifecycle)
+    
+    // Im alten File waren AndroidX Core, Design, Fragment, AppCompat, Transition, ConstraintLayout gelistet.
+    // Diese sind alle im 'androidx-ui' Bundle enthalten.
+    
+    // Spezifisch: Transition war im alten File explizit. 
+    // Ist oft transitiv in Material dabei, aber hier zur Sicherheit:
+    implementation("androidx.transition:transition:1.4.1")
 }

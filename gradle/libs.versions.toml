@@ -1,9 +1,16 @@
 [versions]
-# --- Project Configuration ---
-# Setze hier stabile Versionen. 8.11.x oder 2.0.22 existieren (noch) nicht als Stable.
+# --- Build & Plugins ---
 androidGradlePlugin = "8.11.1"
 kotlin = "2.0.21"
-ksp = "1.9.23-1.0.19" # Passend zur Kotlin Version
+ksp = "2.0.21-1.0.26" # Passend zu Kotlin 2.0.21
+kotlinSerialization = "1.6.3" # Prüfe auf aktuelle Version
+googleServices = "4.4.1" # Aus BuildScript.Plugins.GMS (4.3.4 war sehr alt, 4.4.1 ist stable)
+detekt = "1.23.5"
+detektCompose = "0.3.12"
+spotless = "6.25.0"
+junit5Plugin = "1.10.0.0" # Aktualisiert für Kompatibilität
+graphVisualizer = "0.5.0"
+proguardGenerator = "1.0.8"
 
 # --- AndroidX ---
 coreKtx = "1.12.0"
@@ -13,19 +20,21 @@ fragment = "1.6.2"
 lifecycle = "2.7.0"
 constraintlayout = "2.1.4"
 recyclerview = "1.3.2"
-navigation = "2.7.7"
+navigation = "2.7.7" # Aus Dependencies.kt (dort 2.3.2 -> aktualisiert auf stable)
 material = "1.11.0"
 splashscreen = "1.0.1"
+cardview = "1.0.0" # Aus AndroidX.CARD_VIEW
+androidxPreference = "1.2.1"
 
 # --- Async & Architecture ---
-coroutines = "1.8.0"
-mvi = "4.6.0" # Angenommen Orbit MVI oder ähnliches, da "1.0.0" oft Platzhalter ist
+coroutines = "1.8.0" # Aus Coroutines.VER (dort 1.4.2 -> aktualisiert)
+playServicesCoroutines = "1.7.3" # KTX für Play Services
+mvi = "4.6.0" # MviCore (bzw. Orbit/MVIKotlin je nach Library)
 dagger = "2.50"
 
 # --- Firebase & Google ---
 firebaseBom = "32.7.2"
-googleServices = "4.4.1"
-playServicesAuth = "21.0.0"
+playServicesAuth = "21.0.0" # Aus Google.SIGN_IN (dort 19.0.0 -> aktualisiert)
 
 # --- Network & Data ---
 retrofit = "2.9.0"
@@ -33,36 +42,40 @@ okhttp = "4.12.0"
 gson = "2.10.1"
 
 # --- Utils ---
-timber = "5.0.1"
+coil = "2.5.0" # Aus Libraries.COIL (dort 1.1.0 -> aktualisiert)
+timber = "5.0.1" # Aus Libraries.TIMBER (dort 1.5.1 -> aktualisiert)
+timberKt = "1.5.1" # Alte Version aus Dependencies.kt falls spezifisch benötigt
 threetenabp = "1.4.6"
 adapterDelegates = "4.3.2"
+flexbox = "3.0.0" # Aus Libraries.FLEXBOX
+gestureViews = "2.5.2" # Aus Libraries.GESTURE_VIEWS
+beagle = "2.9.8" # Aus DebugMenu.VER
 
 # --- Testing ---
 junit = "4.13.2"
-junitExt = "1.1.5"
-espresso = "3.5.1"
-mockk = "1.13.9"
-
-# --- Static Analysis ---
-detekt = "1.23.5"
-detektCompose = "0.3.12" # Prüfe auf aktuelle Version: https://github.com/mrmans0n/compose-rules
-
-spotless = "6.25.0"
+junit5 = "5.10.1" # Aus Tests.JUNIT_VER (dort 5.7.0 -> aktualisiert)
+spek = "2.0.19" # Aus Tests.SPEK_VER (dort 2.0.15 -> aktualisiert)
+mockk = "1.13.9" # Aus Tests.MOCKK (dort 1.9.3 -> aktualisiert)
+strikt = "0.34.0" # Aus Tests.STRIKT (dort 0.28.1 -> aktualisiert)
+filePeek = "0.1.3" # Aus Tests.FILE_PEEK
+kotlinReflect = "2.0.21" # Passend zur Kotlin Version
 
 [libraries]
-# --- Kotlin ---
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
-kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+# --- Gradle Plugins (als Libraries für build-logic) ---
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+junit5-gradlePlugin = { group = "de.mannodermaus.gradle.plugins", name = "android-junit5", version.ref = "junit5Plugin" }
+navigation-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
-# --- AndroidX Core & UI ---
+# --- AndroidX ---
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
-androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # --- Lifecycle ---
@@ -74,51 +87,118 @@ androidx-lifecycle-common-java8 = { group = "androidx.lifecycle", name = "lifecy
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 
-# --- Dependency Injection ---
+# --- Coroutines ---
+kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlin-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "playServicesCoroutines" }
+
+# --- Dagger ---
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 
-# --- Firebase ---
+# --- Firebase & Google ---
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
-# --- Architecture (MVI) ---
-# Hinweis: Prüfe, welche MVI Lib du genau nutzt (z.B. Orbit oder Custom)
-mvi-core = { group = "org.orbit-mvi", name = "orbit-core", version.ref = "mvi" }
-mvi-viewmodel = { group = "org.orbit-mvi", name = "orbit-viewmodel", version.ref = "mvi" }
-
-# --- Utils ---
+# --- UI & Utils ---
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+timber-kt = { group = "com.github.ajalt", name = "timberkt", version.ref = "timberKt" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenabp" }
-adapter-delegates = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl", version.ref = "adapterDelegates" }
-adapter-delegates-viewbinding = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapterDelegates" }
+adapterDelegates = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapterDelegates" }
+flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
+gestureViews = { group = "com.alexvasilkov", name = "gesture-views", version.ref = "gestureViews" }
+
+# --- Debug Menu (Beagle) ---
+beagle-drawer = { group = "io.github.pandulapeter.beagle", name = "ui-drawer", version.ref = "beagle" }
+beagle-noop = { group = "io.github.pandulapeter.beagle", name = "noop", version.ref = "beagle" }
+
+# --- Quality ---
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
 
 # --- Testing ---
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+junit5-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
+junit5-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
+junit5-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit5" }
+
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+strikt-core = { group = "io.strikt", name = "strikt-core", version.ref = "strikt" }
+file-peek = { group = "com.christophsturm", name = "filepeek", version.ref = "filePeek" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlinReflect" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
-# Detekt
-detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
-# ... andere Libraries
-detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
+spek-dsl = { group = "org.spekframework.spek2", name = "spek-dsl-jvm", version.ref = "spek" }
+spek-runner = { group = "org.spekframework.spek2", name = "spek-runner-junit5", version.ref = "spek" }
 
-# --- Plugins (Libraries für buildSrc/Dependencies) ---
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "androidxPreference" }
+
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 [bundles]
-androidx-ui = ["androidx-core-ktx", "androidx-appcompat", "material", "androidx-constraintlayout", "androidx-recyclerview", "androidx-fragment-ktx"]
-androidx-navigation = ["androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx"]
-androidx-lifecycle = ["androidx-lifecycle-viewmodel-ktx", "androidx-lifecycle-runtime-ktx", "androidx-lifecycle-common-java8"]
-firebase = ["firebase-analytics", "firebase-auth", "firebase-firestore", "firebase-crashlytics"]
-coroutines = ["kotlin-coroutines-core", "kotlin-coroutines-android"]
+# Standard Android UI Komponenten
+androidx-ui = [
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "material",
+    "androidx-constraintlayout",
+    "androidx-recyclerview",
+    "androidx-fragment-ktx",
+    "androidx-cardview",
+    "flexbox",
+    "gestureViews"
+]
+
+# Navigation Bundle
+androidx-navigation = [
+    "androidx-navigation-fragment-ktx",
+    "androidx-navigation-ui-ktx"
+]
+
+# Lifecycle Bundle
+androidx-lifecycle = [
+    "androidx-lifecycle-viewmodel-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-lifecycle-common-java8"
+]
+
+# Firebase Bundle (ohne BOM, da BOM über platform() eingebunden wird)
+firebase = [
+    "firebase-analytics",
+    "firebase-auth",
+    "firebase-firestore",
+    "firebase-crashlytics"
+]
+
+# Coroutines Bundle
+coroutines = [
+    "kotlin-coroutines-core",
+    "kotlin-coroutines-android"
+]
+
+# Unit Testing Bundle (JUnit 5 + MockK + Strikt + Coroutines Test)
+test-unit = [
+    "junit5-api",
+    "junit5-params",
+    "mockk",
+    "strikt-core",
+    "kotlin-test",
+    "kotlin-reflect",
+    "kotlin-coroutines-test",
+    "file-peek"
+]
+
+# Spek Testing Bundle
+test-spek = [
+    "spek-dsl",
+    "spek-runner"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -126,7 +206,10 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
+androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+proguard-dictionaries = { id = "ru.cleverpumpkin.proguard-dictionaries-generator", version.ref = "proguardGenerator" }

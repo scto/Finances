@@ -1,71 +1,45 @@
-import serg.chuprin.finances.config.AppConfig
-
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    // Verwendet das zentrale Convention Plugin für Android Libraries
+    // Dies setzt minSdk, compileSdk, Java-Versionen und Kotlin-Optionen automatisch.
+    id("finances.android.library")
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version BuildScript.Versions.KOTLIN_VER
 }
 
 android {
-    namespace = "serg.chuprin.finances.core.impl"
-    
-    defaultConfig {
-        buildConfigField("int", "VERSION_CODE", "${AppConfig.VERSION_CODE}")
-        buildConfigField("String", "VERSION_NAME", "\"${AppConfig.VERSION_NAME}\"")
-    }
-    
-    buildTypes {
-        maybeCreate(AppConfig.BuildTypes.DEV.name)
-        maybeCreate(AppConfig.BuildTypes.DEBUG.name)
-    }
-    
-    // Common debug menu implementation for 'dev' and 'debug' build types.
-    sourceSets {
-        getByName(AppConfig.BuildTypes.DEV.name).java.srcDir("src/common/kotlin")
-        getByName(AppConfig.BuildTypes.DEBUG.name).java.srcDir("src/common/kotlin")
-    }
+    namespace = "serg.chuprin.finances.core.api"
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf(".*jar"))))
-    api(project(":core:api"))
-    api(project(":core:firebase"))
+    // Interne Modul-Abhängigkeit
+    api(project(":core:mvi"))
 
-    implementation(Libraries.KOTLIN)
-    implementation(Libraries.KOTLIN_SERIALIZATION)
-    implementation(Libraries.Coroutines.CORE)
-    implementation(Libraries.Coroutines.ANDROID)
+    // --- Architecture & Async ---
+    implementation(libs.bundles.coroutines)
+    implementation(libs.bundles.androidx.lifecycle)
+    
+    // javax.inject wird für Dagger Interfaces benötigt (oft für @Inject Annotationen in Interfaces)
+    implementation("javax.inject:javax.inject:1")
 
-    // region UI.
-    implementation(Libraries.COIL)
+    // --- UI & Navigation ---
+    // Das 'androidx-ui' Bundle ersetzt: Core KTX, AppCompat, Fragment, Material, ConstraintLayout, etc.
+    implementation(libs.bundles.androidx.ui)
+    
+    // Navigation Bundle (Fragment & UI KTX)
+    implementation(libs.bundles.androidx.navigation)
+    
+    // Spezifische UI Libraries
+    implementation(libs.coil)
+    implementation(libs.adapterDelegates)
+    
+    // Transition war explizit im alten Build-File. 
+    // Es ist oft transitiv in Material enthalten, aber hier zur Sicherheit explizit:
+    implementation("androidx.transition:transition:1.4.1")
 
-    // Navigation.
-    implementation(Libraries.Android.Navigation)
+    // Hinweis: 'Libraries.Coroutines.Bindings' war in der alten Datei. 
+    // Falls das FlowBinding ist und du es oft nutzt, solltest du es in die toml aufnehmen.
+    // implementation(libs.flowbinding) 
 
-    // Android.
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.DESIGN)
-    implementation(Libraries.Android.FRAGMENT)
-    implementation(Libraries.Android.APPCOMPAT)
-    implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-    // endregion
-
-    // region DI.
-    kapt(Libraries.Dagger.COMPILER)
-    implementation(Libraries.Dagger.LIBRARY)
-    // endregion
-
-    // Architecture components.
-    implementation(Libraries.Android.Lifecycle)
-
-    implementation(Libraries.Preferences.LIBRARY)
-
-    add(AppConfig.BuildTypes.DEV.implementation, Libraries.DebugMenu.DEBUG)
-    add(AppConfig.BuildTypes.DEBUG.implementation, Libraries.DebugMenu.DEBUG)
-    releaseImplementation(Libraries.DebugMenu.RELEASE)
-
-    testImplementation(project(":core:test"))
+    // --- Logging ---
+    // 'Libraries.TIMBER' war definiert als 'timberkt'
+    api(libs.timber.kt) 
 }

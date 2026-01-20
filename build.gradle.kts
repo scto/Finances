@@ -1,36 +1,3 @@
-// Die meisten "script" dependencies und Konfigurationen sind jetzt in build-logic.
-// Wir behalten hier nur globale Plugins, die nicht auf Modulebene angewendet werden (z.B. Root-Clean).
-
-plugins {
-  // Falls du Detekt/Spotless global aufrufen willst, registriere sie hier mit 'apply false'
-  // und konfiguriere sie über subprojects {} oder eigene Plugins.
-  alias(libs.plugins.android.application) apply false
-  alias(libs.plugins.android.library) apply false
-  alias(libs.plugins.kotlin.android) apply false
-
-  // Beispiel für Detekt (vorausgesetzt es ist im Version Catalog)
-  // alias(libs.plugins.detekt) apply false
-}
-
-tasks.register("clean", Delete::class) {
-  delete(rootProject.buildDir)
-}
-
-// Optionale globale Konfiguration für alle Unterprojekte (vermeidet Redundanz in build-logic, wenn es nur um einfache Tasks geht)
-subprojects {
-  // Hier könnten globale Detekt Regeln angewendet werden,
-  // aber sauberer ist es über ein Convention Plugin.
-}
-
-
-
-
-
-
-
-
-
-/*
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.internal.dsl.BuildType
@@ -53,32 +20,36 @@ import serg.chuprin.finances.config.enableViewBinding // WICHTIG: Import der Ext
 
 // Plugins Block
 plugins {
-    id("com.github.ben-manes.versions") version "0.36.0"
-    id("com.vanniktech.dependency.graph.generator") version "0.5.0"
-    //id("com.vanniktech.dependency.graph.generator") version "0.8.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.5" // Nutze eine aktuelle Version!
-    //alias(libs.plugins.plugin.detekt.gradle)
-    //alias(libs.plugins.plugin.android.gradle) apply false
-    //alias(libs.plugins.plugin.kotlin.gradle) apply false
+  id("com.github.ben-manes.versions") version "0.36.0"
+  id("com.vanniktech.dependency.graph.generator") version "0.5.0"
+  //id("com.vanniktech.dependency.graph.generator") version "0.8.0"
+  id("io.gitlab.arturbosch.detekt") version "1.23.5" // Nutze eine aktuelle Version!
+  //alias(libs.plugins.plugin.detekt.gradle)
+  //alias(libs.plugins.plugin.android.gradle) apply false
+  //alias(libs.plugins.plugin.kotlin.gradle) apply false
 }
 
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://jcenter.bintray.com/") } // Wichtig für serg.chuprin
-        gradlePluginPortal()
+  repositories {
+    google()
+    mavenCentral()
+    maven {
+      url = uri("https://jitpack.io")
     }
-    dependencies {
-        classpath(BuildScript.Plugins.GMS)
-        classpath(BuildScript.Plugins.KOTLIN)
-        classpath(BuildScript.Plugins.JUNIT5)
-        classpath(BuildScript.Plugins.ANDROID)
-        classpath(BuildScript.Plugins.NAVIGATION)
-        classpath(BuildScript.Plugins.GRAPH_VISUALIZER)
-        classpath(BuildScript.Plugins.PROGUARD_GENERATOR)
-    }
+    maven {
+      url = uri("https://jcenter.bintray.com/")
+    } // Wichtig für serg.chuprin
+    gradlePluginPortal()
+  }
+  dependencies {
+    classpath(BuildScript.Plugins.GMS)
+    classpath(BuildScript.Plugins.KOTLIN)
+    classpath(BuildScript.Plugins.JUNIT5)
+    classpath(BuildScript.Plugins.ANDROID)
+    classpath(BuildScript.Plugins.NAVIGATION)
+    classpath(BuildScript.Plugins.GRAPH_VISUALIZER)
+    classpath(BuildScript.Plugins.PROGUARD_GENERATOR)
+  }
 }
 
 /*
@@ -295,8 +266,7 @@ detekt {
     config = files("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
-*/
-/*
+
 detekt {
   toolVersion = "1.23.5"
   config = files("config/detekt/detekt.yml") // Optional: Pfad zu deiner Config

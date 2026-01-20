@@ -1,6 +1,5 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("finances.android.library")
 }
 
 android {
@@ -8,11 +7,10 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.KOTLIN)
+    // UI Bundle
+    // Enthält AndroidX Core, AppCompat und andere UI-Grundlagen, die hier benötigt werden
+    implementation(libs.bundles.androidx.ui)
 
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.APPCOMPAT)
-
-    // Timber.
-    implementation(Libraries.TIMBER)
+    // Logging (TimberKt)
+    implementation(libs.timber.kt)
 }

@@ -1,41 +1,43 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    // Verwendet das zentrale Convention Plugin für Android Libraries
+    id("finances.android.library")
+    // Parcelize muss separat angewendet werden, da es nicht jedes Modul braucht
     id("kotlin-parcelize")
 }
 
 android {
     namespace = "serg.chuprin.finances.core.api"
+    
+    // 'compileSdk', 'minSdk' und 'kotlinOptions' kommen automatisch vom Plugin.
 }
 
 dependencies {
     api(project(":core:mvi"))
-    implementation(Libraries.KOTLIN)
-    implementation(Libraries.Coroutines.CORE)
-    implementation(Libraries.Coroutines.ANDROID)
-    implementation(Libraries.JAVAX_ANNOTATIONS)
 
-    // region UI.
-    implementation(Libraries.COIL)
-    implementation(Libraries.Adapter)
-    implementation(Libraries.Coroutines.Bindings)
+    // --- Architecture & Async ---
+    implementation(libs.bundles.coroutines)
+    implementation(libs.bundles.androidx.lifecycle)
+    
+    // javax.inject wird für Dagger Interfaces benötigt (nicht im Bundle, da spezifisch)
+    implementation("javax.inject:javax.inject:1")
 
-    // Navigation.
-    implementation(Libraries.Android.Navigation)
+    // --- UI & Navigation ---
+    // Das 'androidx-ui' Bundle ersetzt Core, AppCompat, Fragment, Material, ConstraintLayout, etc.
+    implementation(libs.bundles.androidx.ui)
+    
+    // Navigation Bundle (Fragment & UI KTX)
+    implementation(libs.bundles.androidx.navigation)
+    
+    // Spezifische UI Libraries
+    implementation(libs.coil)
+    implementation(libs.adapterDelegates)
+    
+    // Transition (war explizit im alten Build-File, oft transitiv in Material enthalten, 
+    // aber hier sicherheitshalber explizit, falls benötigt)
+    implementation("androidx.transition:transition:1.4.1")
 
-    // Android.
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.DESIGN)
-    implementation(Libraries.Android.FRAGMENT)
-    implementation(Libraries.Android.APPCOMPAT)
-    implementation(Libraries.Android.TRANSITION)
-    implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-    // endregion
-
-    // Architecture components.
-    implementation(Libraries.Android.Lifecycle)
-
-    // Timber.
-    api(Libraries.TIMBER)
+    // --- Logging ---
+    // Im alten File war es 'Libraries.TIMBER' -> 'timberkt'. 
+    // Falls du auf das reine JakeWharton Timber gewechselt bist, nutze 'libs.timber'.
+    api(libs.timber.kt) 
 }

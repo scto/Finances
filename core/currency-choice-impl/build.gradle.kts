@@ -1,9 +1,8 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("finances.android.library")
     id("kotlin-parcelize")
+    // Kapt wird für Dagger benötigt
+    id("kotlin-kapt")
 }
 
 android {
@@ -11,40 +10,28 @@ android {
 }
 
 dependencies {
+    // Interne Abhängigkeiten
     implementation(project(":core:api"))
     implementation(project(":core:currency-choice-api"))
 
-    implementation(Libraries.KOTLIN)
-    implementation(Libraries.Coroutines.CORE)
-    implementation(Libraries.Coroutines.ANDROID)
+    // --- Architecture & Async ---
+    implementation(libs.bundles.coroutines)
+    implementation(libs.bundles.androidx.lifecycle)
 
-    // region UI.
+    // --- UI & Navigation ---
+    implementation(libs.bundles.androidx.ui)
+    implementation(libs.bundles.androidx.navigation)
+    implementation(libs.coil)
+    implementation(libs.adapterDelegates)
 
-    implementation(Libraries.COIL)
+    // --- Dependency Injection (Dagger) ---
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 
-    // Navigation.
-    implementation(Libraries.Android.Navigation)
-
-    // Android.
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.DESIGN)
-    implementation(Libraries.Android.FRAGMENT)
-    implementation(Libraries.Android.APPCOMPAT)
-    implementation(Libraries.Android.CONSTRAINT_LAYOUT)
-
-    implementation(Libraries.Adapter)
-
-    // endregion
-
-    // region DI.
-
-    kapt(Libraries.Dagger.COMPILER)
-    implementation(Libraries.Dagger.LIBRARY)
-
-    // endregion
-
-    // Architecture components.
-    implementation(Libraries.Android.Lifecycle)
+    // --- Testing ---
     testImplementation(project(":core:test"))
-
+    // Bundle für Unit-Tests (JUnit5, MockK, etc.)
+    testImplementation(libs.bundles.test.unit)
+    // JUnit 5 Runtime Engine wird für die Ausführung benötigt
+    testRuntimeOnly(libs.junit5.engine)
 }

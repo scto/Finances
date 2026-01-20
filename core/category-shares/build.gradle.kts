@@ -1,7 +1,5 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    // Replaced deprecated 'android.extensions' with 'kotlin-parcelize'
+    id("finances.android.library")
     id("kotlin-parcelize")
 }
 
@@ -10,15 +8,14 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.KOTLIN)
+    // Interne Modul-Abhängigkeiten
+    implementation(project(":core:api"))
     api(project(":core:pie-chart"))
 
-    implementation(project(":core:api"))
+    // UI Bundle
+    // Enthält: AndroidX Core, AppCompat, Material, Flexbox (wurde im Bundle integriert)
+    implementation(libs.bundles.androidx.ui)
 
-    implementation(Libraries.FLEXBOX)
-    implementation(Libraries.Android.CORE)
-    implementation(Libraries.Android.DESIGN)
-    implementation(Libraries.Android.APPCOMPAT)
-
-    implementation(Libraries.Adapter)
+    // Adapter Delegates
+    implementation(libs.adapterDelegates)
 }
