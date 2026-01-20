@@ -1,105 +1,78 @@
 plugins {
-    id("finances.android.application")
-    // Aktiviert Compose (da enableCompose im alten Skript importiert wurde)
-    id("finances.android.compose")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    
-    // Navigation SafeArgs & Proguard (jetzt über Alias)
-    alias(libs.plugins.androidx.navigation.safeargs)
-    alias(libs.plugins.proguard.dictionaries)
+  id("finances.android.application")
+  id("finances.android.compose")
+  // Falls du Hilt verwendest, müsste hier auch das Hilt-Plugin stehen,
+  // oder es ist bereits im finances.android.application enthalten.
+  // id("dagger.hilt.android.plugin")
 }
 
 android {
-    namespace = "serg.chuprin.finances"
+  namespace = "serg.chuprin.finances"
 
-    defaultConfig {
-        applicationId = "serg.chuprin.finances"
-        versionCode = 1
-        versionName = "1.0.0"
+  defaultConfig {
+    applicationId = "serg.chuprin.finances"
+    versionCode = 1
+    versionName = "1.0"
+
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    vectorDrawables {
+      useSupportLibrary = true
     }
+  }
 
-    buildFeatures {
-        viewBinding = true
+  buildTypes {
+    release {
+      isMinifyEnabled = false
+      proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro"
+      )
     }
+  }
 
-    buildTypes {
-        val debug by getting {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "+${getLastCommitHash()}"
-        }
+  // Kotlin Options und CompileSdk werden nun vom Plugin gesteuert
 
-        create("dev") {
-            initWith(debug)
-            applicationIdSuffix = ".dev"
-            // Falls du spezifische SigningConfigs hast, füge sie hier hinzu
-        }
-
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+  packaging {
+    resources {
+      excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
-    
-    // Proguard Dictionaries Konfiguration (optional, falls benötigt)
-    // proguardDictionaries { ... }
+  }
 }
 
 dependencies {
-    // --- Feature Modules ---
-    implementation(project(":feature:onboarding"))
-    implementation(project(":feature:authorization"))
-    implementation(project(":feature:dashboard"))
-    implementation(project(":feature:dashboard-setup-api"))
-    implementation(project(":feature:dashboard-setup-impl"))
-    implementation(project(":feature:categories-list"))
-    implementation(project(":feature:money-account"))
-    implementation(project(":feature:money-account-details"))
-    implementation(project(":feature:money-accounts-list"))
-    implementation(project(":feature:transaction"))
-    implementation(project(":feature:transactions-report"))
-    implementation(project(":feature:user-profile"))
+  // Modul-Abhängigkeiten
+  implementation(project(":feature:onboarding"))
+  implementation(project(":feature:dashboard"))
+  implementation(project(":feature:categories-list"))
+  implementation(project(":feature:money-account"))
+  implementation(project(":feature:money-accounts-list"))
+  implementation(project(":feature:money-account-details"))
+  implementation(project(":feature:transaction"))
+  implementation(project(":feature:transactions-report"))
+  implementation(project(":feature:user-profile"))
+  implementation(project(":feature:authorization"))
+  implementation(project(":feature:dashboard-setup-impl"))
 
-    // --- Core Modules ---
-    implementation(project(":core:api"))
-    implementation(project(":core:impl"))
-    implementation(project(":core:mvi"))
-    implementation(project(":core:firebase"))
-    implementation(project(":core:pie-chart"))
-    implementation(project(":core:category-shares"))
-    implementation(project(":core:currency-choice-api"))
-    implementation(project(":core:currency-choice-impl"))
+  implementation(project(":core:api"))
+  implementation(project(":core:impl"))
+  implementation(project(":core:mvi"))
+  implementation(project(":core:firebase"))
 
-    // --- Architecture & Async ---
-    implementation(libs.bundles.coroutines)
-    implementation(libs.bundles.androidx.lifecycle)
+  // Library Abhängigkeiten (Beispiele, basierend auf typischen Apps)
+  implementation(libs.core.ktx)
+  implementation(libs.lifecycle.runtime.ktx)
+  implementation(libs.activity.compose)
+  implementation(platform(libs.compose.bom))
+  implementation(libs.ui)
+  implementation(libs.ui.graphics)
+  implementation(libs.ui.tooling.preview)
+  implementation(libs.material3)
 
-    // --- DI ---
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+  // Navigation
+  implementation(libs.navigation.fragment.ktx)
+  implementation(libs.navigation.ui.ktx)
 
-    // --- UI & Navigation ---
-    implementation(libs.bundles.androidx.ui)
-    implementation(libs.bundles.androidx.navigation)
-    implementation(libs.coil)
-
-    // --- Firebase ---
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.bundles.firebase)
-}
-
-/**
- * Hilfsfunktion um den Git Hash für die Versionierung zu holen.
- */
-fun getLastCommitHash(): String {
-    return try {
-        val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
-        process.inputStream.bufferedReader().use { it.readText().trim() }
-    } catch (e: Exception) {
-        "unknown"
-    }
+  // DI
+  implementation(libs.dagger)
+  kapt(libs.dagger.compiler)
 }

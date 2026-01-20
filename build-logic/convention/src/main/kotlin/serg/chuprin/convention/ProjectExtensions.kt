@@ -1,7 +1,6 @@
 /*
  * Copyright 2024 Thomas Schmid
  */
-
 package serg.chuprin.convention
 
 import org.gradle.api.JavaVersion
@@ -33,13 +32,3 @@ version(key).toInt()
  */
 fun Project.javaVersion(key: String): JavaVersion =
 JavaVersion.toVersion(version(key))
-
-// Zentrale Konfiguration für SDK Versionen (Ersatz für AppConfig)
-object FinancesConfig {
-  const val minSdk = 26
-  const val targetSdk = 34
-  const val compileSdk = 34
-  const val versionCode = 1
-  const val versionName = "1.0.0"
-  const val javaVersion = 17 // Oder 11, je nach Anforderung
-}

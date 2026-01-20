@@ -23,10 +23,10 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
-import dev.scto.convention.libs
-import dev.scto.convention.javaVersion
-import dev.scto.convention.version
-import dev.scto.convention.versionInt
+import serg.chuprin.convention.libs
+import serg.chuprin.convention.javaVersion
+import serg.chuprin.convention.version
+import serg.chuprin.convention.versionInt
 
 /**
  * Zentrale Compose Konfiguration.

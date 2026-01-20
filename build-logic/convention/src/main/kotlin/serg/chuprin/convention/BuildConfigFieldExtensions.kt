@@ -1,4 +1,4 @@
-package serg.chuprin.finances.config
+package serg.chuprin.convention
 
 import com.android.build.gradle.internal.dsl.BuildType
 
