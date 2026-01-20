@@ -1,6 +1,6 @@
 [versions]
 # --- Build & Plugins ---
-androidGradlePlugin = "8.11.1"
+androidGradlePlugin = "9.0.0"
 
 java = "17"
 
