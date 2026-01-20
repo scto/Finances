@@ -20,7 +20,7 @@ import serg.chuprin.finances.config.enableViewBinding // WICHTIG: Import der Ext
 
 // Plugins Block
 plugins {
-  id("com.github.ben-manes.versions") version "0.36.0"
+  id("com.github.ben-manes.versions") version "0.53.0"
   id("com.vanniktech.dependency.graph.generator") version "0.5.0"
   //id("com.vanniktech.dependency.graph.generator") version "0.8.0"
   id("io.gitlab.arturbosch.detekt") version "1.23.5" // Nutze eine aktuelle Version!
