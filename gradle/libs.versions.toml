@@ -2,7 +2,7 @@
 # ... PROJECT ...
 java = "17"
 kotlin = "2.2.21" 
-androidGradlePlugin = "8.11.1"
+androidGradlePlugin = "9.0.0"
 androidTools = "31.13.1"
 androidDesugarJdkLibs = "2.0.4"
 gmsPlugin = "4.4.4"
