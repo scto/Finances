@@ -110,3 +110,55 @@ gradlePlugin {
         }
     }
 }
+
+plugins {
+    `kotlin-dsl`
+}
+
+group = "serg.chuprin.finances.buildlogic"
+
+// Abhängigkeiten für die Build-Logik selbst
+dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
+}
+
+gradlePlugin {
+    plugins {
+        register("androidApplication") {
+            id = "finances.android.application"
+            implementationClass = "ApplicationConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "finances.android.library"
+            implementationClass = "LibraryConventionPlugin"
+        }
+        register("androidFeature") {
+            id = "finances.android.feature"
+            implementationClass = "FeatureConventionPlugin"
+        }
+        register("androidCompose") {
+            id = "finances.android.compose"
+            implementationClass = "ComposeConventionPlugin"
+        }
+        register("androidHilt") {
+            id = "finances.android.hilt"
+            implementationClass = "DaggerHiltConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "finances.android.room"
+            implementationClass = "RoomConventionPlugin"
+        }
+        register("androidFirebase") {
+            id = "finances.android.firebase"
+            implementationClass = "FirebaseConventionPlugin"
+        }
+        register("codeQualityDetekt") {
+            id = "finances.code.quality.detekt"
+            implementationClass = "DetektConventionPlugin"
+        }
+        // ... weitere Plugins (Lint, Spotless etc.) falls nötig
+    }
+}

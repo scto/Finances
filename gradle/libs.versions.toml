@@ -239,7 +239,7 @@ room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", vers
 # Firebase Plugins für build-logic
 firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 firebase-perf-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
-oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "gmsPlugin" }
 secrets-gradlePlugin = { group = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", name = "secrets-gradle-plugin", version.ref = "secrets" }
 spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
@@ -264,7 +264,7 @@ firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "fireb
 # Documentation & Tools
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 develocity = { id = "com.gradle.develocity", version.ref = "develocity" }
-oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
+oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "gmsPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
@@ -284,7 +284,7 @@ finances-feature = { id = "serg.chuprin.android.feature" }
 finances-lint = { id = "serg.chuprin.lint" }
 finances-firebase = { id = "serg.chuprin.firebase" }
 finances-room = { id = "serg.chuprin.room" }
-finances-dagger-hilt = { id = "serg.chuprin.dagger.hilt" }
+finances-hilt = { id = "serg.chuprin.hilt" }
 finances-dokka = { id = "serg.chuprin.dokka" }
 finances-codequality = { id = "serg.chuprin.codequality" }
 finances-detekt = { id = "serg.chuprin.detekt" }
