@@ -1,6 +1,7 @@
 /*
  * Copyright 2024 Thomas Schmid
  */
+
 package serg.chuprin.convention
 
 import org.gradle.api.JavaVersion
@@ -9,26 +10,28 @@ import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 
-// Zugriff auf libs.versions.toml innerhalb der Plugins
-val Project.libs
-get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+/**
+ * Zugriff auf den "libs" Version Catalog.
+ */
+val Project.libs: VersionCatalog
+    get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 /**
  * Liest eine Version als String aus dem Catalog mit klarer Fehlermeldung.
  */
 fun Project.version(key: String): String =
-libs.findVersion(key).orElseThrow {
-  IllegalStateException("Version '$key' wurde nicht in gradle/libs.versions.toml gefunden. Bitte füge '$key = \"...\"' unter [versions] hinzu.")
-}.toString()
+    libs.findVersion(key).orElseThrow {
+        IllegalStateException("Version '$key' wurde nicht in gradle/libs.versions.toml gefunden. Bitte füge '$key = \"...\"' unter [versions] hinzu.")
+    }.toString()
 
 /**
  * Liest eine Version als Int aus dem Catalog (für SDK Versionen).
  */
 fun Project.versionInt(key: String): Int =
-version(key).toInt()
+    version(key).toInt()
 
 /**
  * Liest eine Java-Version aus dem Catalog und konvertiert sie.
  */
 fun Project.javaVersion(key: String): JavaVersion =
-JavaVersion.toVersion(version(key))
+    JavaVersion.toVersion(version(key))

@@ -1,113 +1,125 @@
 [versions]
-# --- Build & Plugins ---
-androidGradlePlugin = "8.11.1"
-
+# ... PROJECT ...
 java = "17"
+kotlin = "2.2.21" 
+androidGradlePlugin = "8.11.1"
+androidTools = "31.13.1"
+androidDesugarJdkLibs = "2.0.4"
+gmsPlugin = "4.4.4"
+ksp = "2.2.21-1.0.32" 
+dokka = "2.1.0"
+dokkaMermaid = "0.6.0"
+develocity = "4.3"
+secrets = "2.0.1"
 
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.26" # Passend zu Kotlin 2.0.21
-kotlinSerialization = "1.6.3" # Prüfe auf aktuelle Version
-googleServices = "4.4.1" # Aus BuildScript.Plugins.GMS (4.3.4 war sehr alt, 4.4.1 ist stable)
+# --- Quality & Tools ---
 detekt = "1.23.6"
 detektCompose = "0.3.12"
 spotless = "7.0.0.BETA4"
-#spotless = "6.25.0"
 
-junit5Plugin = "1.10.0.0" # Aktualisiert für Kompatibilität
+junit5Plugin = "1.10.0.0"
 graphVisualizer = "0.5.0"
 proguardGenerator = "1.0.8"
+googleServices = "4.4.1"
 
 # --- AndroidX ---
-coreKtx = "1.12.0"
-appcompat = "1.6.1"
-activity = "1.8.2"
-fragment = "1.6.2"
-lifecycle = "2.7.0"
+androidxCore = "1.17.0" 
+androidxAppCompat = "1.7.1"
+androidxActivity = "1.11.0"
+androidxFragment = "1.8.9"
+androidxLifecycle = "2.9.4"
+androidxNavigation = "2.9.5"
+androidxDataStore = "1.1.7"
+androidxCredentials = "1.5.0"
+androidxCoreSplashscreen = "1.2.0"
+androidxHiltNavigationCompose = "1.3.0"
+androidxPreference = "1.2.1"
 constraintlayout = "2.1.4"
 recyclerview = "1.3.2"
-navigation = "2.7.7" # Aus Dependencies.kt (dort 2.3.2 -> aktualisiert auf stable)
+cardview = "1.0.0"
 material = "1.11.0"
-splashscreen = "1.0.1"
-cardview = "1.0.0" # Aus AndroidX.CARD_VIEW
-androidxPreference = "1.2.1"
-
-androidxComposeBom = "2025.10.01"
+# ... STORAGE:ROOM ...
+room = "2.8.3"
 
 # --- Async & Architecture ---
-coroutines = "1.8.0" # Aus Coroutines.VER (dort 1.4.2 -> aktualisiert)
-playServicesCoroutines = "1.7.3" # KTX für Play Services
-mvi = "4.6.0" # MviCore (bzw. Orbit/MVIKotlin je nach Library)
-dagger = "2.50"
+coroutines = "1.10.2"
+playServicesCoroutines = "1.7.3"
+mvi = "4.6.0"
+# ... DAGGER-HILT ...
+hilt = "2.57.2"
+hiltExt = "1.3.0"
+
+# ... KOIN ...
+koin = "4.1.1"
+koin-compose = "4.1.1"
+
+# --- Compose ---
+androidxComposeBom = "2025.10.01" # HINWEIS: Prüfen ob diese BOM existiert, sonst stable version nutzen
+androidxComposeCompiler = "1.5.13" # Wird bei neueren Kotlin Versionen oft direkt im Plugin geregelt
 
 # --- Firebase & Google ---
-firebaseBom = "32.7.2"
-playServicesAuth = "21.0.0" # Aus Google.SIGN_IN (dort 19.0.0 -> aktualisiert)
+firebaseBom = "34.4.0"
+firebaseCrashlyticsPlugin = "3.0.6"
+firebasePerfPlugin = "2.0.1"
+playServicesAuth = "21.0.0"
 
 # --- Network & Data ---
 retrofit = "2.9.0"
 okhttp = "4.12.0"
 gson = "2.10.1"
+kotlinSerialization = "1.6.3"
+kotlinxDatetime = "0.7.1-0.6.x-compat"
 
 # --- Utils ---
-coil = "2.5.0" # Aus Libraries.COIL (dort 1.1.0 -> aktualisiert)
-timber = "5.0.1" # Aus Libraries.TIMBER (dort 1.5.1 -> aktualisiert)
-timberKt = "1.5.1" # Alte Version aus Dependencies.kt falls spezifisch benötigt
+coil = "2.5.0"
+timber = "5.0.1"
+timberKt = "1.5.1"
 threetenabp = "1.4.6"
 adapterDelegates = "4.3.2"
-flexbox = "3.0.0" # Aus Libraries.FLEXBOX
-gestureViews = "2.5.2" # Aus Libraries.GESTURE_VIEWS
-beagle = "2.9.8" # Aus DebugMenu.VER
+flexbox = "3.0.0"
+gestureViews = "2.5.2"
+beagle = "2.9.8"
+kotlinxImmutable = "0.3.7"
 
 # --- Testing ---
 junit = "4.13.2"
-junit5 = "5.10.1" # Aus Tests.JUNIT_VER (dort 5.7.0 -> aktualisiert)
-spek = "2.0.19" # Aus Tests.SPEK_VER (dort 2.0.15 -> aktualisiert)
-mockk = "1.13.9" # Aus Tests.MOCKK (dort 1.9.3 -> aktualisiert)
-strikt = "0.34.0" # Aus Tests.STRIKT (dort 0.28.1 -> aktualisiert)
-filePeek = "0.1.3" # Aus Tests.FILE_PEEK
-kotlinReflect = "2.0.21" # Passend zur Kotlin Version
+junit5 = "5.10.1"
+spek = "2.0.19"
+mockk = "1.13.9"
+strikt = "0.34.0"
+filePeek = "0.1.3"
+kotlinReflect = "2.0.21"
 
-dokka = "2.1.0"
-dokkaMermaid = "0.6.0"
-
-# ... SDK-CONFIG ...
-namespace = "serg.chuprin.finances"
+# --- SDK Config ---
 compileSdk = "36"
-targetSdk = "35"
 minSdk = "28"
-
+targetSdk = "35"
+namespace = "serg.chuprin.finances"
 
 [libraries]
-# --- Gradle Plugins (als Libraries für build-logic) ---
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
-spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
-junit5-gradlePlugin = { group = "de.mannodermaus.gradle.plugins", name = "android-junit5", version.ref = "junit5Plugin" }
-navigation-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
-dokka-gradlePlugin = { group = "org.jetbrains.dokka", name = "org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
-
-# ... DOKKA PLUGINS ...
-dokka-android-plugin = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
-dokka-mermaid-plugin = { module = "com.glureau:html-mermaid-dokka-plugin", version.ref = "dokkaMermaid" }
-
-# --- AndroidX ---
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+# --- AndroidX Core & UI ---
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidxFragment" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "androidxPreference" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # --- Lifecycle ---
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-common-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-common-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 
 # --- Navigation ---
-androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
-androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidxNavigation" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidxNavigation" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
 # --- Compose ---
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -124,51 +136,76 @@ androidx-compose-material3-adaptive-navigation = { group = "androidx.compose.mat
 androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 
-androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
-androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+# ... DAGGER-HILT ...
+hilt-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+# ... KOIN ...
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 # --- Coroutines ---
 kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlin-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "playServicesCoroutines" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
-# --- Dagger ---
-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
-androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "daggerHiltExt" }
-androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "daggerHiltExt" }
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+# ... NETWORK ...
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 
-# --- Firebase & Google ---
+# ... ROOM ...
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+
+# ... LINT ...
+lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
+lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
+lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
+
+# ... FIREBASE ...
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-perf = { group = "com.google.firebase", name = "firebase-perf" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
-# --- UI & Utils ---
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+# --- UI Utils ---
+coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 timber-kt = { group = "com.github.ajalt", name = "timberkt", version.ref = "timberKt" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenabp" }
 adapterDelegates = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapterDelegates" }
 flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 gestureViews = { group = "com.alexvasilkov", name = "gesture-views", version.ref = "gestureViews" }
-
-# --- Debug Menu (Beagle) ---
 beagle-drawer = { group = "io.github.pandulapeter.beagle", name = "ui-drawer", version.ref = "beagle" }
 beagle-noop = { group = "io.github.pandulapeter.beagle", name = "noop", version.ref = "beagle" }
 
-# --- Quality ---
+# --- Quality & Docs ---
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
 
@@ -177,23 +214,83 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit5-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit5" }
-
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 strikt-core = { group = "io.strikt", name = "strikt-core", version.ref = "strikt" }
 file-peek = { group = "com.christophsturm", name = "filepeek", version.ref = "filePeek" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlinReflect" }
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-
 spek-dsl = { group = "org.spekframework.spek2", name = "spek-dsl-jvm", version.ref = "spek" }
 spek-runner = { group = "org.spekframework.spek2", name = "spek-runner-junit5", version.ref = "spek" }
 
-androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "androidxPreference" }
+# ... DOKKA PLUGINS ...
+dokka-android-plugin = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
+dokka-mermaid-plugin = { module = "com.glureau:html-mermaid-dokka-plugin", version.ref = "dokkaMermaid" }
 
-kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+# --- Gradle Plugins (für build-logic Dependencies) ---
+# ... BUILD-LOGIC ...
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+dokka-gradlePlugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+# Firebase Plugins für build-logic
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
+secrets-gradlePlugin = { group = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", name = "secrets-gradle-plugin", version.ref = "secrets" }
+spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+junit5-gradlePlugin = { group = "de.mannodermaus.gradle.plugins", name = "android-junit5", version.ref = "junit5Plugin" }
+navigation-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "androidxNavigation" }
+
+[plugins]
+# Standard Plugins
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerfPlugin" }
+# Documentation & Tools
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+develocity = { id = "com.gradle.develocity", version.ref = "develocity" }
+oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+
+
+
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
+androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
+proguard-dictionaries = { id = "ru.cleverpumpkin.proguard-dictionaries-generator", version.ref = "proguardGenerator" }
+
+# Custom Project Convention Plugins (Aliase für einfache Verwendung in build.gradle.kts Dateien)
+# Diese werden in build-logic/convention definiert
+finances-application = { id = "serg.chuprin.android.application" }
+finances-library = { id = "serg.chuprin.android.library" }
+finances-compose = { id = "serg.chuprin.android.compose" }
+finances-feature = { id = "serg.chuprin.android.feature" }
+finances-lint = { id = "serg.chuprin.lint" }
+finances-firebase = { id = "serg.chuprin.firebase" }
+finances-room = { id = "serg.chuprin.room" }
+finances-dagger-hilt = { id = "serg.chuprin.dagger.hilt" }
+finances-dokka = { id = "serg.chuprin.dokka" }
+finances-codequality = { id = "serg.chuprin.codequality" }
+finances-detekt = { id = "serg.chuprin.detekt" }
+finances-spotless = { id = "serg.chuprin.spotless" }
 
 [bundles]
-# Standard Android UI Komponenten
 androidx-ui = [
     "androidx-core-ktx",
     "androidx-appcompat",
@@ -202,24 +299,30 @@ androidx-ui = [
     "androidx-recyclerview",
     "androidx-fragment-ktx",
     "androidx-cardview",
+    "androidx-splashscreen",
     "flexbox",
     "gestureViews"
 ]
 
-# Navigation Bundle
 androidx-navigation = [
     "androidx-navigation-fragment-ktx",
     "androidx-navigation-ui-ktx"
 ]
 
-# Lifecycle Bundle
 androidx-lifecycle = [
     "androidx-lifecycle-viewmodel-ktx",
     "androidx-lifecycle-runtime-ktx",
     "androidx-lifecycle-common-java8"
 ]
 
-# Firebase Bundle (ohne BOM, da BOM über platform() eingebunden wird)
+compose = [
+    "androidx-compose-foundation",
+    "androidx-compose-material3",
+    "androidx-compose-ui",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-ui-graphics"
+]
+
 firebase = [
     "firebase-analytics",
     "firebase-auth",
@@ -227,13 +330,11 @@ firebase = [
     "firebase-crashlytics"
 ]
 
-# Coroutines Bundle
 coroutines = [
     "kotlin-coroutines-core",
     "kotlin-coroutines-android"
 ]
 
-# Unit Testing Bundle (JUnit 5 + MockK + Strikt + Coroutines Test)
 test-unit = [
     "junit5-api",
     "junit5-params",
@@ -245,37 +346,7 @@ test-unit = [
     "file-peek"
 ]
 
-# Spek Testing Bundle
 test-spek = [
     "spek-dsl",
     "spek-runner"
 ]
-
-[plugins]
-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
-androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
-proguard-dictionaries = { id = "ru.cleverpumpkin.proguard-dictionaries-generator", version.ref = "proguardGenerator" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-
-# ... Custom Plugins ...
-finances-application = { id = "finances.android.application" }
-finances-library = { id = "finances.android.library" }
-finances-compose = { id = "finances.android.compose" }
-finances-feature = { id = "finances.android.feature" }
-finances-lint = { id = "finances.android.lint" }
-finances-firebase = { id = "finances.android.firebase" }
-finances-dagger-hilt = { id = "finances.dagger.hilt" }
-finances-dokka = { id = "finances.dokka" }
-finances-codequality = { id = "finances.codequality" }
-finances-spotless = { id = "finances.spotless" }
-finances-detekt = { id = "finances.detekt" }

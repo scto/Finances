@@ -17,11 +17,8 @@
 package serg.chuprin.convention
 
 import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -30,39 +27,54 @@ import serg.chuprin.convention.libs
 import serg.chuprin.convention.javaVersion
 import serg.chuprin.convention.version
 import serg.chuprin.convention.versionInt
-import serg.chuprin.convention.FinancesConfig
 
 /**
- * Konfiguriert die grundlegenden Kotlin-Optionen für Android-Module.
+ * Zentrale Android Konfiguration für Apps und Libraries.
  */
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = FinancesConfig.compileSdk
+        compileSdk = versionInt("compileSdk")
 
         defaultConfig {
-            minSdk = FinancesConfig.minSdk
+            minSdk = versionInt("minSdk")
         }
+
+        val javaVersion = javaVersion("java")
 
         compileOptions {
-            sourceCompatibility = JavaVersion.toVersion(FinancesConfig.javaVersion)
-            targetCompatibility = JavaVersion.toVersion(FinancesConfig.javaVersion)
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
+            isCoreLibraryDesugaringEnabled = true
         }
+
+        configureKotlin(javaVersion)
     }
 
-    configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.toVersion(FinancesConfig.javaVersion)
-        targetCompatibility = JavaVersion.toVersion(FinancesConfig.javaVersion)
+    dependencies {
+        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
     }
+}
 
+private fun Project.configureKotlin(javaVersion: org.gradle.api.JavaVersion) {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = FinancesConfig.javaVersion.toString()
-            // Hier können weitere Compiler-Flags hinzugefügt werden
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        // MIGRATION: 'kotlinOptions' -> 'compilerOptions'
+        compilerOptions {
+            // Konvertiert die Gradle JavaVersion (z.B. "17") in das Kotlin JvmTarget Enum
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
+            
+            allWarningsAsErrors.set(false)
+            
+            // In compilerOptions ist freeCompilerArgs eine ListProperty, daher .addAll()
+            freeCompilerArgs.addAll(
+                  "-opt-in=kotlin.RequiresOptIn",
+                  "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                  "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                  "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
+                  "-Xcontext-parameters",
+                  // https://youtrack.jetbrains.com/issue/KT-73255
+                  "-Xannotation-default-target=param-property",
             )
         }
     }
