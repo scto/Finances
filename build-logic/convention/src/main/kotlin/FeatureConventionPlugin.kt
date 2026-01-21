@@ -1,61 +1,45 @@
-/*
- * Copyright 2024 Thomas Schmid
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import com.android.build.gradle.LibraryExtension
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.getByType
+import com.android.build.gradle.LibraryExtension
 
-import serg.chuprin.convention.libs
-
-/**
- * Standardisiertes Plugin für Feature-Module.
- * Kombiniert Library, Hilt und Compose.
- */
-class AndroidFeatureConventionPlugin : Plugin<Project> {
+class FeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("serg.chuprin.android.library")
-                apply("serg.chuprin.dagger.hilt")
-                apply("serg.chuprin.compose")
+                apply("finances.android.library")
+                apply("finances.android.hilt")
+                // Empfehlung: Wenn alle Features UI haben, hier Compose aktivieren.
+                // Falls es reine Logic-Features gibt, dies weglassen.
+                // apply("finances.android.compose") 
             }
-
             extensions.configure<LibraryExtension> {
                 defaultConfig {
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    // Test Runner für Features standardisieren
+                    testInstrumentationRunner = "serg.chuprin.finances.core.test.FinancesTestRunner"
                 }
             }
 
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
             dependencies {
-                add("implementation", project(":core:ui"))
-                // add("implementation", project(":core:android")) // Utils etc.
+                // ARCHITEKTUR-FIX:
+                // Abhängigkeit zu ":core:impl" entfernt. Features sollten nur gegen die API programmieren.
+                // Die Implementierung wird im :app Modul zur Laufzeit via Hilt bereitgestellt.
+                add("implementation", project(":core:api"))
+                // add("implementation", project(":core:impl")) // <- Entfernt
 
-                add("testImplementation", kotlin("test"))
-                add("androidTestImplementation", kotlin("test"))
+                add("implementation", project(":core:mvi"))
 
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                add("implementation", libs.findLibrary("kotlin.coroutines").get())
+                add("implementation", libs.findLibrary("kotlin.coroutines.android").get())
+                add("implementation", libs.findLibrary("timber").get())
 
-                add("implementation", libs.findLibrary("coil.kt").get())
-                add("implementation", libs.findLibrary("coil.kt.compose").get())
+                // Testing dependencies
+                add("testImplementation", project(":core:test"))
             }
         }
     }
