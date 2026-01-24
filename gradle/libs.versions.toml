@@ -17,7 +17,7 @@ detekt = "1.23.6"
 detektCompose = "0.3.12"
 spotless = "7.0.0.BETA4"
 
-junit5Plugin = "1.10.0.0"
+junit5Plugin = "2.0.1"
 graphVisualizer = "0.5.0"
 proguardGenerator = "1.0.8"
 googleServices = "4.4.1"
