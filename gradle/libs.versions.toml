@@ -25,7 +25,7 @@ googleServices = "4.4.1"
 # --- AndroidX ---
 androidxCore = "1.17.0" 
 androidxAppCompat = "1.7.1"
-androidxActivity = "1.11.0"
+androidxActivity = "1.12.2"
 androidxFragment = "1.8.9"
 androidxLifecycle = "2.9.4"
 androidxNavigation = "2.9.5"
